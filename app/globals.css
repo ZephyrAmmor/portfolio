@@ -3,8 +3,7 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtq.woff2")
-    format("woff2");
+  src: url("./fonts/Outfit-VariableFont_wght.ttf") format("truetype");
 }
 
 @font-face {
@@ -12,8 +11,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("https://cdn.jsdelivr.net/npm/@fontsource/comic-mono@5.2.5/files/comic-mono-latin-400-normal.woff2")
-    format("woff2");
+  src: url("./fonts/ComicShannsMonoNerdFontMono-Regular.otf") format("opentype");
 }
 
 :root {
