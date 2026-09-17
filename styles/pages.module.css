@@ -11,6 +11,17 @@
   text-transform: uppercase;
 }
 
+.aboutHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(240px, 420px);
+  align-items: end;
+  gap: clamp(28px, 4vw, 64px);
+}
+
+.aboutText {
+  max-width: 760px;
+}
+
 .title {
   max-width: 820px;
   margin: 26px 0 32px;
@@ -25,6 +36,23 @@
   color: var(--muted);
   font-size: 18px;
   line-height: 1.6;
+}
+
+.photoWrap {
+  justify-self: end;
+  width: min(100%, 360px);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--muted) 8%, transparent);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
+}
+
+.profileImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .rule {
@@ -142,6 +170,15 @@
 @media (max-width: 700px) {
   .page {
     padding: 80px 0 100px;
+  }
+
+  .aboutHero {
+    grid-template-columns: 1fr;
+  }
+
+  .photoWrap {
+    justify-self: start;
+    width: min(100%, 280px);
   }
 
   .contentGrid {

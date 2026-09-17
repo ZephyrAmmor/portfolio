@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import { SiteShell } from "@/components/layout/site-shell";
 import { createMetadata, siteConfig } from "@/lib/metadata";
@@ -12,13 +13,27 @@ export default function AboutPage() {
   return (
     <SiteShell>
       <main className={styles.page}>
-        <p className={styles.eyebrow}>About</p>
-        <h1 className={styles.title}>Still learning. Paying attention.</h1>
-        <p className={styles.intro}>
-          I am Abdul Samad, a computer science student studying at NUML Multan.
-          This page is about the direction I am taking, not a claim that I have
-          already arrived.
-        </p>
+        <section className={styles.aboutHero} aria-label="About introduction">
+          <div className={styles.aboutText}>
+            <p className={styles.eyebrow}>About</p>
+            <h1 className={styles.title}>Still learning. Paying attention.</h1>
+            <p className={styles.intro}>
+              I am Abdul Samad, a computer science student studying at NUML
+              Multan. This page is about the direction I am taking, not a claim
+              that I have already arrived.
+            </p>
+          </div>
+          <div className={styles.photoWrap}>
+            <Image
+              src="/profile.webp"
+              alt="Abdul Samad"
+              width={480}
+              height={560}
+              priority
+              className={styles.profileImage}
+            />
+          </div>
+        </section>
         <hr className={styles.rule} />
         <section
           className={styles.contentGrid}
