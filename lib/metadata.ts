@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+
 export const siteConfig = {
   name: "Abdul Samad",
   shortName: "Abdul Samad",
   description:
     "The portfolio and notebook of Abdul Samad, a computer science student exploring software, artificial intelligence, and computing fundamentals.",
-  url: "https://example.com",
+  url: siteUrl,
   email: "amorzephyr@gmail.com",
   location: "Multan, Pakistan",
   social: {
@@ -44,9 +46,10 @@ export function createMetadata(
         : {}),
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: `${title} | ${siteConfig.name}`,
       description: pageDescription,
+      images: ["/opengraph-image"],
     },
   };
 }
