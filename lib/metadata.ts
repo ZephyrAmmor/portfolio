@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://amorzephyr.vercel.app";
+  configuredSiteUrl && !configuredSiteUrl.includes("your-domain.example")
+    ? configuredSiteUrl
+    : "https://amorzephyr.vercel.app";
 
 export const siteConfig = {
   name: "Abdul Samad",
