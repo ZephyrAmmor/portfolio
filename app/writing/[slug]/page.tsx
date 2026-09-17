@@ -4,7 +4,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { mdxComponents } from "@/components/mdx/mdx-components";
 import LayoutTest from "@/content/writing/layout-test.mdx";
 import { getWritingPost, getWritingPosts } from "@/lib/mdx";
-import { createMetadata } from "@/lib/metadata";
+import { createMetadata, siteConfig } from "@/lib/metadata";
 import styles from "./page.module.css";
 
 const postComponents = {
@@ -47,6 +47,32 @@ export default async function WritingPostPage({ params }: WritingPageProps) {
     <SiteShell>
       <main className={styles.page}>
         <article>
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: post.title,
+              description: post.description,
+              datePublished: post.date,
+              dateModified: post.date,
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": new URL(
+                  `/writing/${post.slug}`,
+                  siteConfig.url,
+                ).toString(),
+              },
+              author: {
+                "@type": "Person",
+                name: siteConfig.name,
+                url: siteConfig.url,
+              },
+              publisher: {
+                "@type": "Person",
+                name: siteConfig.name,
+              },
+            })}
+          </script>
           <header className={styles.header}>
             <p className={styles.kicker}>{post.type}</p>
             <h1>{post.title}</h1>

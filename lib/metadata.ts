@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://amorzephyr.vercel.app";
 
 export const siteConfig = {
   name: "Abdul Samad",
@@ -41,6 +42,7 @@ export function createMetadata(
       url: pageUrl,
       siteName: siteConfig.name,
       type: options.type ?? "website",
+      images: ["/opengraph-image"],
       ...(options.publishedTime
         ? { publishedTime: options.publishedTime }
         : {}),

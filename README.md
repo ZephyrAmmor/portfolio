@@ -31,7 +31,7 @@ first-class part of the site.
 Set the public site URL before building for production:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://your-domain.example pnpm build
+NEXT_PUBLIC_SITE_URL=https://amorzephyr.vercel.app pnpm build
 ```
 
 The value is used for canonical URLs, Open Graph metadata, JSON-LD, `sitemap.xml`,
