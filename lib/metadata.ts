@@ -15,17 +15,38 @@ export const siteConfig = {
   },
 };
 
-export function createMetadata(title: string, description?: string): Metadata {
+type MetadataOptions = {
+  path?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+};
+
+export function createMetadata(
+  title: string,
+  description?: string,
+  options: MetadataOptions = {},
+): Metadata {
+  const pageDescription = description ?? siteConfig.description;
+  const pageUrl = new URL(options.path ?? "/", siteConfig.url).toString();
+
   return {
     title,
-    description: description ?? siteConfig.description,
-    alternates: { canonical: siteConfig.url },
+    description: pageDescription,
+    alternates: { canonical: pageUrl },
     openGraph: {
       title: `${title} | ${siteConfig.name}`,
-      description: description ?? siteConfig.description,
-      url: siteConfig.url,
+      description: pageDescription,
+      url: pageUrl,
       siteName: siteConfig.name,
-      type: "website",
+      type: options.type ?? "website",
+      ...(options.publishedTime
+        ? { publishedTime: options.publishedTime }
+        : {}),
+    },
+    twitter: {
+      card: "summary",
+      title: `${title} | ${siteConfig.name}`,
+      description: pageDescription,
     },
   };
 }

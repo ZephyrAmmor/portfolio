@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
+import { CodeBlock } from "./code-block";
 import styles from "./mdx-components.module.css";
 
 type CodeProps = ComponentPropsWithoutRef<"code">;
@@ -15,6 +16,12 @@ export const mdxComponents = {
   p: ({ className, ...props }: ComponentPropsWithoutRef<"p">) => (
     <p className={`${styles.paragraph} ${className ?? ""}`} {...props} />
   ),
+  ul: ({ className, ...props }: ComponentPropsWithoutRef<"ul">) => (
+    <ul className={`${styles.list} ${className ?? ""}`} {...props} />
+  ),
+  ol: ({ className, ...props }: ComponentPropsWithoutRef<"ol">) => (
+    <ol className={`${styles.list} ${className ?? ""}`} {...props} />
+  ),
   a: ({ className, ...props }: ComponentPropsWithoutRef<"a">) => (
     <a className={`${styles.link} ${className ?? ""}`} {...props} />
   ),
@@ -24,9 +31,7 @@ export const mdxComponents = {
   }: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote className={`${styles.quote} ${className ?? ""}`} {...props} />
   ),
-  pre: ({ className, ...props }: ComponentPropsWithoutRef<"pre">) => (
-    <pre className={`${styles.pre} ${className ?? ""}`} {...props} />
-  ),
+  pre: CodeBlock,
   code: ({ className, ...props }: CodeProps) => (
     <code className={`${styles.code} ${className ?? ""}`} {...props} />
   ),

@@ -11,14 +11,12 @@
   cursor: pointer;
   transition:
     border-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
+    color 180ms ease;
 }
 
 .button:hover {
   border-color: var(--accent);
   color: var(--accent);
-  transform: rotate(18deg);
 }
 
 .button:focus-visible {

@@ -40,7 +40,7 @@ export function ThemeToggle() {
       aria-label={isDark ? "Use light theme" : "Use dark theme"}
       title={isDark ? "Use light theme" : "Use dark theme"}
     >
-      <span aria-hidden="true">{isDark ? "☼" : "◐"}</span>
+      <span aria-hidden="true">◐</span>
     </button>
   );
 }

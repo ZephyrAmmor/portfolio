@@ -49,7 +49,10 @@ export default function ProjectsPage() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        View repository <span aria-hidden="true">↗</span>
+                        View repository{" "}
+                        <span className={styles.arrow} aria-hidden="true">
+                          ↑
+                        </span>
                       </a>
                     </div>
                     <span className={styles.meta}>
@@ -78,7 +81,10 @@ export default function ProjectsPage() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    View course or certificate <span aria-hidden="true">↗</span>
+                    View course or certificate{" "}
+                    <span className={styles.arrow} aria-hidden="true">
+                      ↑
+                    </span>
                   </a>
                 </div>
                 <span className={styles.meta}>

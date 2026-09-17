@@ -40,7 +40,10 @@ export default function WritingPage() {
                       className={styles.link}
                       href={`/writing/${note.slug}`}
                     >
-                      Read the note <span aria-hidden="true">↗</span>
+                      Read the note{" "}
+                      <span className={styles.arrow} aria-hidden="true">
+                        ↑
+                      </span>
                     </Link>
                   </div>
                   <span className={styles.meta}>{note.type}</span>

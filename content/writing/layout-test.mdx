@@ -1,0 +1,35 @@
+---
+title: A small note about building in public
+description: A temporary article used to check the writing layout, typography, links, and code blocks.
+date: 2026-09-17
+type: Layout test
+---
+
+This is a temporary article for testing the MDX writing layout. It is not a published essay, but it gives the article page enough texture to inspect while the real notebook is still empty.
+
+## Why this fixture exists
+
+A writing page needs to handle more than a title and a paragraph. This fixture checks:
+
+- readable paragraphs and vertical rhythm
+- headings and nested sections
+- inline `code` and external links
+- quotations and fenced code blocks
+
+> Good tools should make careful thinking easier, not make the thinking disappear.
+
+## A small example
+
+Here is a deliberately simple function. The code block should scroll horizontally on narrow screens without pushing the page wider than the viewport.
+
+```ts
+export function describeNote(title: string, published: boolean) {
+  return published ? `${title} is live` : `${title} is still a draft`;
+}
+
+console.log(describeNote("A small note", false));
+```
+
+The real writing section will begin when there is something worth saying. Until then, this fixture can be removed without changing the MDX architecture.
+
+Read more about [MDX](https://mdxjs.com/) when you want to understand how Markdown and components meet.

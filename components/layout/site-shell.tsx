@@ -11,14 +11,15 @@ type SiteShellProps = {
   children: ReactNode;
 };
 
+const links = [
+  { href: "/now", label: "Now" },
+  { href: "/projects", label: "Projects" },
+  { href: "/writing", label: "Writing" },
+  { href: "/about", label: "About" },
+];
+
 export function SiteShell({ children }: SiteShellProps) {
   const pathname = usePathname();
-
-  const links = [
-    { href: "/projects", label: "Projects" },
-    { href: "/writing", label: "Writing" },
-    { href: "/about", label: "About" },
-  ];
 
   return (
     <div className={styles.shell}>
@@ -50,7 +51,7 @@ export function SiteShell({ children }: SiteShellProps) {
         </nav>
         <div className={styles.headerActions}>
           <a className={styles.headerLink} href={`mailto:${siteConfig.email}`}>
-            Get in touch <span aria-hidden="true">↗</span>
+            Get in touch <span aria-hidden="true">↑</span>
           </a>
           <ThemeToggle />
         </div>

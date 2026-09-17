@@ -19,42 +19,11 @@ export default function Home() {
                 artificial intelligence, and the foundations beneath both.
               </p>
               <Link className={styles.textLink} href="/projects">
-                Explore the work <span aria-hidden="true">↓</span>
+                Explore the work{" "}
+                <span className={styles.arrow} aria-hidden="true">
+                  ↑
+                </span>
               </Link>
-            </div>
-          </section>
-
-          <section className={styles.now} aria-labelledby="now-title">
-            <div className={styles.sectionLabel}>
-              <span>01</span>
-              <h2 id="now-title">Now</h2>
-            </div>
-            <div className={styles.nowContent}>
-              <p className={styles.nowLead}>
-                A small snapshot of what is occupying my attention lately.
-              </p>
-              <dl className={styles.nowList}>
-                <div>
-                  <dt>Studying</dt>
-                  <dd>
-                    Data structures, linear algebra, and mathematical proof
-                  </dd>
-                </div>
-                <div>
-                  <dt>Exploring</dt>
-                  <dd>
-                    How intelligent systems connect perception, language, and
-                    action
-                  </dd>
-                </div>
-                <div>
-                  <dt>Thinking about</dt>
-                  <dd>
-                    Building a slower, more deliberate kind of software
-                    portfolio
-                  </dd>
-                </div>
-              </dl>
             </div>
           </section>
 
@@ -64,7 +33,7 @@ export default function Home() {
             aria-labelledby="work-title"
           >
             <div className={styles.sectionLabel}>
-              <span>02</span>
+              <span>01</span>
               <h2 id="work-title">Selected work</h2>
             </div>
             <div className={styles.workIntro}>
@@ -75,7 +44,10 @@ export default function Home() {
                   coursework.
                 </p>
                 <Link className={styles.textLink} href="/projects">
-                  See the project shelf <span aria-hidden="true">↗</span>
+                  See the project shelf{" "}
+                  <span className={styles.arrow} aria-hidden="true">
+                    ↑
+                  </span>
                 </Link>
               </div>
               <ul className={styles.featuredList}>
@@ -83,7 +55,9 @@ export default function Home() {
                   <li key={project.name}>
                     <a href={project.url} target="_blank" rel="noreferrer">
                       <span>{project.name}</span>
-                      <span aria-hidden="true">↗</span>
+                      <span className={styles.arrow} aria-hidden="true">
+                        ↑
+                      </span>
                     </a>
                   </li>
                 ))}
@@ -97,7 +71,7 @@ export default function Home() {
             aria-labelledby="writing-title"
           >
             <div className={styles.sectionLabel}>
-              <span>03</span>
+              <span>02</span>
               <h2 id="writing-title">From the notebook</h2>
             </div>
             <div className={styles.writingIntro}>
@@ -106,7 +80,10 @@ export default function Home() {
                 interesting after the code runs.
               </p>
               <Link className={styles.textLink} href="/writing">
-                Browse the notebook <span aria-hidden="true">↗</span>
+                Browse the notebook{" "}
+                <span className={styles.arrow} aria-hidden="true">
+                  ↑
+                </span>
               </Link>
             </div>
           </section>
@@ -117,7 +94,7 @@ export default function Home() {
             aria-labelledby="about-title"
           >
             <div className={styles.sectionLabel}>
-              <span>04</span>
+              <span>03</span>
               <h2 id="about-title">A little context</h2>
             </div>
             <p className={styles.aboutCopy}>

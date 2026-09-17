@@ -111,15 +111,32 @@
 
 .link {
   display: inline-block;
-  margin-top: 24px;
-  border-bottom: 1px solid var(--foreground);
-  padding-bottom: 5px;
+  margin-top: 20px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 7px 10px;
+  color: var(--foreground);
   font-size: 13px;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
 }
 
-.link:hover {
+.arrow {
   color: var(--accent);
-  border-color: var(--accent);
+}
+
+.link:hover,
+.link:focus-visible {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 @media (max-width: 700px) {
