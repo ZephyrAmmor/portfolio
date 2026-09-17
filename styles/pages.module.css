@@ -1,0 +1,150 @@
+.page {
+  padding: 110px 0 150px;
+}
+
+.eyebrow,
+.kicker {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 820px;
+  margin: 26px 0 32px;
+  font-size: clamp(52px, 8vw, 104px);
+  font-weight: 500;
+  letter-spacing: -0.075em;
+  line-height: 0.98;
+}
+
+.intro {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.rule {
+  margin: 88px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) 2fr;
+  gap: 40px;
+  padding-top: 32px;
+}
+
+.contentGrid h2 {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.copy {
+  max-width: 650px;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.copy p + p {
+  margin-top: 24px;
+}
+
+.list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.emptyState {
+  max-width: 500px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.listItem {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: start;
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+
+.listItem:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.listItem h3 {
+  margin-bottom: 8px;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.listItem p {
+  max-width: 500px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 24px;
+  border-bottom: 1px solid var(--foreground);
+  padding-bottom: 5px;
+  font-size: 13px;
+}
+
+.link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 80px 0 100px;
+  }
+
+  .contentGrid {
+    display: block;
+  }
+
+  .contentGrid h2 {
+    margin-bottom: 32px;
+  }
+
+  .copy {
+    font-size: 16px;
+  }
+
+  .listItem {
+    display: block;
+  }
+
+  .meta {
+    display: block;
+    margin-top: 14px;
+  }
+}
