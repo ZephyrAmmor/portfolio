@@ -9,7 +9,7 @@ const withMDX = createMDX({
     ],
     rehypePlugins: [
       ["rehype-katex", { output: "htmlAndMathml" }],
-      ["rehype-pretty-code", { theme: "one-dark-pro" }],
+      ["rehype-pretty-code", { theme: "monokai" }],
     ],
   },
 });
