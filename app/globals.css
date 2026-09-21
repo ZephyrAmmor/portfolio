@@ -1,3 +1,5 @@
+@import "katex/dist/katex.min.css";
+
 @font-face {
   font-family: "Outfit";
   font-style: normal;
@@ -24,6 +26,8 @@
   --font-mono:
     "Comic Mono", "ComicShannsMono Nerd Font", "ComicShannsMono Nerd Font Mono",
     "JetBrains Mono", monospace;
+  --font-math:
+    "CMU Serif", "Latin Modern Roman", "STIX Two Text", Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,22 +38,6 @@
     --line: #29332c;
     --accent: #f08b6f;
   }
-}
-
-:root[data-theme="light"] {
-  --background: #f1efe9;
-  --foreground: #20231f;
-  --muted: #74766d;
-  --line: #d5d3ca;
-  --accent: #b84c35;
-}
-
-:root[data-theme="dark"] {
-  --background: #0b0e0c;
-  --foreground: #e8eee8;
-  --muted: #9aa79d;
-  --line: #29332c;
-  --accent: #f08b6f;
 }
 
 html {

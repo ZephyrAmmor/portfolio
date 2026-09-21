@@ -22,6 +22,12 @@ A writing page needs to handle more than a title and a paragraph. This fixture c
 
 Here is a deliberately simple function. The code block should scroll horizontally on narrow screens without pushing the page wider than the viewport.
 
+Inline math such as $a^2 + b^2 = c^2$ should sit naturally in a sentence.
+
+$$
+f(x) = \int_{-\infty}^{\infty} e^{-x^2} \, dx = \sqrt{\pi}
+$$
+
 ```ts
 export function describeNote(title: string, published: boolean) {
   return published ? `${title} is live` : `${title} is still a draft`;

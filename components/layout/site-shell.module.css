@@ -70,6 +70,43 @@
   white-space: nowrap;
 }
 
+.menuButton {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: var(--foreground);
+  background: transparent;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.menuButton:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.menuButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.menuIcon {
+  display: grid;
+  width: 14px;
+  gap: 3px;
+}
+
+.menuIcon span {
+  display: block;
+  height: 1px;
+  background: currentColor;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -97,6 +134,19 @@
 
   .nav {
     display: none;
+  }
+
+  .menuButton {
+    display: inline-flex;
+  }
+
+  .navOpen {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--line);
+    padding: 12px 0 16px;
   }
 
   .footer {

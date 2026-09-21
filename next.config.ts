@@ -2,8 +2,15 @@ import createMDX from "@next/mdx";
 
 const withMDX = createMDX({
   options: {
-    remarkPlugins: ["remark-frontmatter", "remark-mdx-frontmatter"],
-    rehypePlugins: [["rehype-pretty-code", { theme: "one-dark-pro" }]],
+    remarkPlugins: [
+      "remark-frontmatter",
+      "remark-mdx-frontmatter",
+      "remark-math",
+    ],
+    rehypePlugins: [
+      ["rehype-katex", { output: "htmlAndMathml" }],
+      ["rehype-pretty-code", { theme: "one-dark-pro" }],
+    ],
   },
 });
 

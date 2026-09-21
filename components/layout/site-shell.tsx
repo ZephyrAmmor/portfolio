@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { siteConfig } from "@/lib/metadata";
 import styles from "./site-shell.module.css";
-import { ThemeToggle } from "./theme-toggle";
 
 type SiteShellProps = {
   children: ReactNode;
@@ -14,12 +13,14 @@ type SiteShellProps = {
 const links = [
   { href: "/now", label: "Now" },
   { href: "/projects", label: "Projects" },
+  { href: "/learning", label: "Learning" },
   { href: "/writing", label: "Writing" },
   { href: "/about", label: "About" },
 ];
 
 export function SiteShell({ children }: SiteShellProps) {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className={styles.shell}>
@@ -32,7 +33,11 @@ export function SiteShell({ children }: SiteShellProps) {
           {siteConfig.name}
           <span>.</span>
         </Link>
-        <nav className={styles.nav} aria-label="Primary navigation">
+        <nav
+          id="primary-navigation"
+          className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}
+          aria-label="Primary navigation"
+        >
           {links.map((link) => {
             const isActive =
               pathname === link.href || pathname.startsWith(`${link.href}/`);
@@ -43,6 +48,7 @@ export function SiteShell({ children }: SiteShellProps) {
                 href={link.href}
                 key={link.href}
                 aria-current={isActive ? "page" : undefined}
+                onClick={() => setMenuOpen(false)}
               >
                 {link.label}
               </Link>
@@ -53,7 +59,21 @@ export function SiteShell({ children }: SiteShellProps) {
           <a className={styles.headerLink} href={`mailto:${siteConfig.email}`}>
             Get in touch <span aria-hidden="true">↑</span>
           </a>
-          <ThemeToggle />
+          <button
+            className={styles.menuButton}
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="primary-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span className={styles.menuIcon} aria-hidden="true">
+              <span />
+              <span />
+            </span>
+            <span className={styles.menuLabel}>
+              {menuOpen ? "Close" : "Menu"}
+            </span>
+          </button>
         </div>
       </header>
       {children}

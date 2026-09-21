@@ -1,16 +1,11 @@
-export type ProjectGroup =
-  | "Selected work"
-  | "Self-learning"
-  | "University coursework";
-
 export type Project = {
   name: string;
   description: string;
+  story: string;
   language?: string;
-  group: ProjectGroup;
+  context: string;
   source: string;
   url: string;
-  featured?: boolean;
 };
 
 export const projects: Project[] = [
@@ -18,103 +13,35 @@ export const projects: Project[] = [
     name: "Rainify",
     description:
       "A weather experience focused on making forecast information feel clear, visual, and easy to return to.",
+    story:
+      "I built Rainify during the break after my first semester to turn a familiar API exercise into a complete web experience. I kept it deliberately framework-free: vanilla JavaScript renders the weather views, CSS handles the responsive layout and motion, and small modules separate location, API requests, formatting, and UI components. The result taught me how much clarity comes from good boundaries, not just from adding features.",
     language: "JavaScript",
-    group: "Selected work",
+    context: "Built after first semester",
     source: "amor-projects",
     url: "https://github.com/amor-projects/Rainify",
-    featured: true,
   },
   {
     name: "Library Management System",
     description:
       "A university-level system modeling books, members, borrowing rules, reservations, fines, roles, and book categories.",
+    story:
+      "This was our second-semester OOP project: a console application for the everyday work of a library. I worked through the domain model as a set of cooperating classes, using inheritance and polymorphism for book and user types, a text UI for interaction, and a separate storage layer for CSV persistence. The interesting part was making rules such as availability, borrowability, renewals, and fines live in the model instead of scattering them through menu code.",
     language: "Java",
-    group: "Selected work",
+    context: "OOP final project, second semester",
     source: "amor-projects",
     url: "https://github.com/amor-projects/library-management-system",
-    featured: true,
   },
   {
     name: "WeatherCLI",
     description:
       "A C++ command-line weather tool with static and live modes, JSON parsing, API support, and forecast views.",
+    story:
+      "WeatherCLI was my first-semester Programming Fundamentals final project. I used it to practice turning a loose feature list into a small, understandable C++ program: one module parses and validates command-line arguments, live and static modes provide data, JSON is parsed with nlohmann/json, and a formatter owns terminal output. Supporting both live API data and an offline JSON mode made the project feel useful while forcing me to think about failure paths and separation of concerns.",
     language: "C++",
-    group: "Selected work",
+    context: "Programming Fundamentals final project, first semester",
     source: "amor-projects",
     url: "https://github.com/amor-projects/weather-cli",
-    featured: true,
-  },
-  {
-    name: "Odin",
-    description:
-      "A single home for projects completed while working through The Odin Project curriculum.",
-    language: "JavaScript",
-    group: "Self-learning",
-    source: "ZephyrAmmor",
-    url: "https://github.com/ZephyrAmmor/Odin",
-  },
-  {
-    name: "Shopping Cart",
-    description:
-      "A React shopping cart project built while working through structured web development study.",
-    language: "JavaScript",
-    group: "Self-learning",
-    source: "Amor-Self-learning",
-    url: "https://github.com/Amor-Self-learning/shopping-cart",
-  },
-  {
-    name: "Memory Card",
-    description:
-      "A memory card game project focused on state, interaction, and component-driven UI.",
-    language: "JavaScript",
-    group: "Self-learning",
-    source: "Amor-Self-learning",
-    url: "https://github.com/Amor-Self-learning/memory-card",
-  },
-  {
-    name: "Resume Generator",
-    description:
-      "A React application for generating a resume from structured user input.",
-    language: "JavaScript",
-    group: "Self-learning",
-    source: "Amor-Self-learning",
-    url: "https://github.com/Amor-Self-learning/resume-generator",
-  },
-  {
-    name: "dropDown",
-    description:
-      "A small dropdown menu package created as part of an Odin Project exercise.",
-    language: "JavaScript",
-    group: "Self-learning",
-    source: "ZephyrAmmor",
-    url: "https://github.com/ZephyrAmmor/dropDown",
-  },
-  {
-    name: "Full Stack Open",
-    description:
-      "A single repository containing the projects and exercises completed through the Full Stack Open course.",
-    group: "Self-learning",
-    source: "Amor-Self-learning",
-    url: "https://github.com/Amor-Self-learning/FSO",
-  },
-  {
-    name: "Programming Fundamentals",
-    description:
-      "Practice, assignments, and projects from first-semester Programming Fundamentals with C++.",
-    language: "C++",
-    group: "University coursework",
-    source: "uni-course-work",
-    url: "https://github.com/uni-course-work/PF-1st-sem-CPP",
-  },
-  {
-    name: "Object-Oriented Programming",
-    description:
-      "Coursework and practice for learning object-oriented programming with Java.",
-    language: "Java",
-    group: "University coursework",
-    source: "uni-course-work",
-    url: "https://github.com/uni-course-work/OOP-2nd-sem-JAVA",
   },
 ];
 
-export const featuredProjects = projects.filter((project) => project.featured);
+export const featuredProjects = projects;
