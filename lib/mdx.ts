@@ -9,6 +9,7 @@ export type WritingPost = {
   title: string;
   description: string;
   date: string;
+  updated: string;
   type: string;
 };
 
@@ -20,6 +21,7 @@ function toPost(slug: string, source: string): WritingPost {
     title: String(data.title ?? slug),
     description: String(data.description ?? ""),
     date: String(data.date ?? ""),
+    updated: String(data.updated ?? data.date ?? ""),
     type: String(data.type ?? "Note"),
   };
 }

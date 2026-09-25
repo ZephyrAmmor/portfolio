@@ -11,7 +11,7 @@ export const certifications: Certification[] = [
     name: "Full Stack Open: Parts 0-7",
     provider: "University of Helsinki",
     description:
-      "A full-stack web development course covering React, Node.js, APIs, testing, and databases.",
+      "The course that turned web development from a collection of tutorials into applications I could reason about, test, and extend.",
     status: "Completed",
     url: "https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/34241ac4cf87258ea9087e0b8d64d33e",
   },
@@ -19,7 +19,7 @@ export const certifications: Certification[] = [
     name: "Full Stack Open: TypeScript",
     provider: "MOOC.fi",
     description:
-      "A TypeScript course focused on typed application development and modern web programming.",
+      "A first sustained experience with types as a way to make application boundaries and assumptions more visible.",
     status: "Completed",
     url: "https://courses.mooc.fi/certificates/validate/3dpfyznkuen7ztz",
   },
@@ -27,7 +27,7 @@ export const certifications: Certification[] = [
     name: "CS50X",
     provider: "Harvard University",
     description:
-      "An introduction to computer science and the art of programming.",
+      "The course I had to return to: the second attempt gave me a working foundation in algorithms, memory, and problem solving.",
     status: "Completed",
     url: "https://cs50.harvard.edu/certificates/3768dc0f-8ae8-490e-bc75-eef7091b43e3",
   },
@@ -35,7 +35,7 @@ export const certifications: Certification[] = [
     name: "Java Programming I",
     provider: "MOOC.fi",
     description:
-      "The first course in Java programming fundamentals and object-oriented programming.",
+      "A structured introduction to Java, objects, collections, testing, and writing programs one idea at a time.",
     status: "Completed",
     url: "https://certificates.mooc.fi/validate/ylzh8nyw4h",
   },
@@ -43,7 +43,7 @@ export const certifications: Certification[] = [
     name: "Java Programming II",
     provider: "MOOC.fi",
     description:
-      "The second course in Java programming, continuing into object-oriented application development.",
+      "A continuation that made larger object-oriented programs feel less like a jump and more like a sequence of manageable decisions.",
     status: "Completed",
     url: "https://certificates.mooc.fi/validate/7o2ok9l1dsf",
   },

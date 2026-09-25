@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { siteConfig } from "@/lib/metadata";
 import styles from "./site-shell.module.css";
 
@@ -21,9 +21,20 @@ const links = [
 export function SiteShell({ children }: SiteShellProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [fontsReady, setFontsReady] = useState(false);
+
+  useEffect(() => {
+    document.fonts.ready.then(() => setFontsReady(true));
+  }, []);
 
   return (
-    <div className={styles.shell}>
+    <div className={styles.shell} aria-busy={!fontsReady}>
+      {!fontsReady && (
+        <output className={styles.loader} aria-label="Loading">
+          <span className={styles.loaderMark}>AS</span>
+          <span className={styles.loaderLine} />
+        </output>
+      )}
       <header className={styles.header}>
         <Link
           className={styles.wordmark}

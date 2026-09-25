@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SiteShell } from "@/components/layout/site-shell";
-import { learningActivities, learningCertificates } from "@/lib/learning";
+import { learningCertificates, learningChapters } from "@/lib/learning";
 import { createMetadata } from "@/lib/metadata";
 import styles from "@/styles/pages.module.css";
 
@@ -14,41 +14,23 @@ export default function LearningPage() {
     <SiteShell>
       <main className={styles.page}>
         <p className={styles.eyebrow}>Learning</p>
-        <h1 className={styles.title}>A foundation, built in public.</h1>
+        <h1 className={styles.title}>The long way into computer science.</h1>
         <p className={styles.intro}>
-          I learn through a mixture of structured courses, project work, and
-          returning to ideas until they stop feeling borrowed. This is the short
-          list of learning activities that have shaped how I build.
+          I did not arrive here through a single smooth curriculum. This is the
+          story of the courses, detours, unfinished edges, and repeated attempts
+          that are shaping how I learn to build.
         </p>
         <hr className={styles.rule} />
-        <section
-          className={styles.contentGrid}
-          aria-labelledby="activities-title"
-        >
-          <h2 id="activities-title">Major activities</h2>
+        <section className={styles.contentGrid} aria-labelledby="story-title">
+          <h2 id="story-title">The story so far</h2>
           <ul className={styles.list}>
-            {learningActivities.map((activity) => (
-              <li className={styles.listItem} key={activity.name}>
+            {learningChapters.map((chapter) => (
+              <li className={styles.listItem} key={chapter.title}>
                 <div>
-                  <h3>{activity.name}</h3>
-                  <p>{activity.description}</p>
-                  {activity.url && (
-                    <a
-                      className={styles.link}
-                      href={activity.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Visit course{" "}
-                      <span className={styles.arrow} aria-hidden="true">
-                        ↑
-                      </span>
-                    </a>
-                  )}
+                  <h3>{chapter.title}</h3>
+                  <p>{chapter.body}</p>
+                  <p className={styles.takeaway}>{chapter.takeaway}</p>
                 </div>
-                <span className={styles.meta}>
-                  {activity.status} · {activity.provider}
-                </span>
               </li>
             ))}
           </ul>

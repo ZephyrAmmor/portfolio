@@ -46,7 +46,6 @@ export default function WritingPage() {
                       </span>
                     </Link>
                   </div>
-                  <span className={styles.meta}>{note.type}</span>
                 </li>
               ))}
             </ul>

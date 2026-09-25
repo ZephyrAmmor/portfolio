@@ -1,7 +1,44 @@
 .shell {
+  position: relative;
   width: min(100%, 1180px);
   margin: 0 auto;
   padding: 0 36px;
+}
+
+.loader {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 14px;
+  background: var(--background);
+  pointer-events: none;
+}
+
+.loaderMark {
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.loaderLine {
+  display: block;
+  width: 54px;
+  height: 2px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.loaderLine::after {
+  display: block;
+  width: 35%;
+  height: 100%;
+  background: var(--accent);
+  content: "";
+  animation: loaderProgress 700ms ease-in-out infinite;
 }
 
 .header {
@@ -142,26 +179,27 @@
   }
 
   .navOpen {
-      position: absolute;
-      z-index: 10;
-      top: calc(100% + 10px);
-      right: 0;
-      display: flex;
-      width: min(220px, calc(100vw - 40px));
-      flex-direction: column;
-      gap: 4px;
-      justify-self: auto;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px;
-      background: var(--background);
-      box-shadow: 0 16px 32px color-mix(in srgb, var(--foreground) 14%, transparent);
-      animation: menuIn 180ms ease both;
-    }
+    position: absolute;
+    z-index: 10;
+    top: calc(100% + 10px);
+    right: 0;
+    display: flex;
+    width: min(220px, calc(100vw - 40px));
+    flex-direction: column;
+    gap: 4px;
+    justify-self: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px;
+    background: var(--background);
+    box-shadow: 0 16px 32px
+      color-mix(in srgb, var(--foreground) 14%, transparent);
+    animation: menuIn 180ms ease both;
+  }
 
-    .navOpen a {
-      display: block;
-      padding: 11px 12px;
+  .navOpen a {
+    display: block;
+    padding: 11px 12px;
   }
 
   .footer {
@@ -190,8 +228,19 @@
   }
 }
 
+@keyframes loaderProgress {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(300%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .navOpen {
+  .navOpen,
+  .loaderLine::after {
     animation: none;
   }
 }

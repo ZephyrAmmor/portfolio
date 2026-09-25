@@ -15,6 +15,21 @@ type WritingPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function formatDate(date: string) {
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return date;
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(parsedDate);
+}
+
 export function generateStaticParams() {
   return getWritingPosts().map(({ slug }) => ({ slug }));
 }
@@ -54,7 +69,7 @@ export default async function WritingPostPage({ params }: WritingPageProps) {
               headline: post.title,
               description: post.description,
               datePublished: post.date,
-              dateModified: post.date,
+              dateModified: post.updated,
               mainEntityOfPage: {
                 "@type": "WebPage",
                 "@id": new URL(
@@ -77,7 +92,14 @@ export default async function WritingPostPage({ params }: WritingPageProps) {
             <p className={styles.kicker}>{post.type}</p>
             <h1>{post.title}</h1>
             <p className={styles.description}>{post.description}</p>
-            <time dateTime={post.date}>{post.date}</time>
+            <p className={styles.metaLine}>
+              Created at{" "}
+              <time dateTime={post.date}>{formatDate(post.date)}</time>
+            </p>
+            <p className={styles.metaLine}>
+              Updated at
+              <time dateTime={post.updated}>{formatDate(post.updated)}</time>
+            </p>
           </header>
           <div className={styles.content}>
             <Post components={mdxComponents} />
