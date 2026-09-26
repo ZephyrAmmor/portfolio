@@ -6,6 +6,7 @@ export type Project = {
   context: string;
   source: string;
   url: string;
+  livePreview?: string;
 };
 
 export const projects: Project[] = [
@@ -19,6 +20,7 @@ export const projects: Project[] = [
     context: "Built after first semester",
     source: "amor-projects",
     url: "https://github.com/amor-projects/Rainify",
+    livePreview: "https://rainify-weather.vercel.app",
   },
   {
     name: "Library Management System",

@@ -16,6 +16,8 @@ review before calling the site finished.
 
 Live preview: <https://amorzephyr.vercel.app>
 
+Rainify live preview: <https://rainify-weather.vercel.app>
+
 ## Features
 
 - Home, About, Projects, Now, and Writing pages
@@ -136,3 +138,12 @@ styles/               Shared page styles
 - Run a production deployment and verify the generated metadata and SEO routes.
 - Replace temporary writing fixtures with finished notes or remove them.
 - Review copy, links, contact details, and project descriptions.
+
+## Next improvements
+
+1. Add dedicated case-study pages with screenshots, technical decisions, and
+	outcomes for each project.
+2. Publish more writing and add clearer topic metadata so the notebook is more
+	useful to readers and easier to discover.
+3. Run a measured performance and accessibility pass, then document the key
+	results and remaining issues.

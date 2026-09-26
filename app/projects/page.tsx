@@ -33,17 +33,32 @@ export default function ProjectsPage() {
                   <h3>{project.name}</h3>
                   <p>{project.description}</p>
                   <p>{project.story}</p>
-                  <a
-                    className={styles.link}
-                    href={project.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View repository{" "}
-                    <span className={styles.arrow} aria-hidden="true">
-                      ↑
-                    </span>
-                  </a>
+                  <div className={styles.linkGroup}>
+                    <a
+                      className={styles.link}
+                      href={project.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View repository{" "}
+                      <span className={styles.arrow} aria-hidden="true">
+                        ↑
+                      </span>
+                    </a>
+                    {project.livePreview && (
+                      <a
+                        className={styles.link}
+                        href={project.livePreview}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Live preview{" "}
+                        <span className={styles.arrow} aria-hidden="true">
+                          ↑
+                        </span>
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <span className={styles.meta}>
                   {project.language ? `${project.language} · ` : ""}

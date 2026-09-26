@@ -160,6 +160,12 @@
     background-color 180ms ease;
 }
 
+.linkGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .arrow {
   color: var(--accent);
 }
