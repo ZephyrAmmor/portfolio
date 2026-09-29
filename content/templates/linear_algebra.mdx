@@ -1,0 +1,145 @@
+---
+title: "TITLE"
+slug: "la-slug"
+subject: "linear-algebra"
+module: "M#"
+tier: 2
+status: "draft"
+date: "YYYY-MM-DD"
+summary: "[One sentence]"
+prerequisites: []
+connections: []
+tags: ["linear-algebra"]
+depthHook: "[from outline]"
+---
+
+{/*
+  LA-SPECIFIC RULES
+  1. Always separate the OBJECT (a linear map, a subspace) from its REPRESENTATION (a matrix, a basis).
+  2. Every article needs one picture in R^2 or R^3, even if the theorem lives in R^n.
+  3. Every article needs one non-arrow example (polynomials, functions, or matrices as vectors).
+  4. State the field ($\mathbb{R}$, $\mathbb{C}$, GF(2)) whenever it matters.
+*/}
+
+import {
+  Callout, Definition, Theorem, Proof, Example,
+  Misconception, Connection, SelfTest, Takeaways, Figure
+} from "@/components/article";
+
+<Takeaways>
+- [Geometric statement]
+- [Algebraic statement]
+- [What it lets you compute]
+</Takeaways>
+
+## 1. Motivating problem
+
+[A system, a data-fitting task, or a dynamics question that is painful without this idea.]
+
+## 2. Geometric intuition
+
+[What happens to a square/circle/plane under this idea? Describe what it does to lengths, angles, area, and which directions are special.]
+
+<Figure src="/img/la/slug.svg" alt="" caption="[Highlight the invariant direction / subspace]" />
+
+**Three views to write out explicitly**
+
+| View | Statement |
+|---|---|
+| Column view | [combination of columns...] |
+| Row view | [intersection of hyperplanes...] |
+| Map view | [what the transformation does...] |
+
+## 3. Formalism
+
+<Definition term="[Term]">
+Let $V$ be a vector space over $\mathbb{F}$ and $T : V \to W$ linear. [Definition]
+</Definition>
+
+<Theorem name="[Name]">
+[Statement with hypotheses, e.g. "If $A$ is $n \times n$ and ..."]
+</Theorem>
+
+<Proof>
+[Proof. Prefer basis-free arguments; then translate to matrices.]
+</Proof>
+
+### Object vs representation
+
+[If you choose basis $\mathcal{B}$, the matrix is $[T]_{\mathcal{B}}$. Which parts of your result are basis-independent? Which change under $P^{-1}AP$?]
+
+## 4. Worked example by hand
+
+<Example title="[2x2 or 3x3, integer entries]">
+$$
+A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}
+$$
+
+**Step 1.** [...]
+
+**Step 2.** [...]
+
+**Sanity check.** [Verify with trace/determinant/rank or a second method.]
+</Example>
+
+### Non-arrow example
+
+<Example title="Same idea in a function or polynomial space">
+[e.g. differentiation on $\mathcal{P}_3$: write its matrix in the basis $\{1, x, x^2, x^3\}$.]
+</Example>
+
+## 5. Failure modes
+
+| Situation | What breaks | Explanation |
+|---|---|---|
+| Singular / rank-deficient | [...] | [...] |
+| Not diagonalizable (defective) | [...] | [...] |
+| Ill-conditioned | [...] | [...] |
+| Wrong field (real vs complex) | [...] | [...] |
+| Non-square | [...] | [...] |
+
+## 6. Numerical reality
+
+[How would you actually compute this? Which method is stable? What does floating point do? Why not use the textbook formula?]
+
+```python
+import numpy as np
+# minimal reproducible snippet showing the point, not a full library demo
+A = np.array([[...]])
+```
+
+## 7. Connections
+
+<Connection to="[slug]" field="Digital Logic">
+[e.g. GF(2): Hamming codes as null spaces of parity-check matrices.]
+</Connection>
+
+<Connection to="[slug]" field="DSA">
+[e.g. adjacency-matrix powers count walks.]
+</Connection>
+
+## 8. Misconceptions
+
+<Misconception wrong="A matrix is just a grid of numbers">
+[The grid is a representation of a map relative to two bases...]
+</Misconception>
+
+<Misconception wrong="[topic-specific]">
+[...]
+</Misconception>
+
+## 9. Self-test
+
+<SelfTest>
+1. **State** [theorem] and its hypotheses.
+2. **Compute** [small case].
+3. **Interpret** [result geometrically].
+4. **Counterexample:** what fails if [hypothesis] is dropped?
+5. **Which of your answers change if you switch basis?**
+</SelfTest>
+
+## References
+
+- Strang, *Linear Algebra and Its Applications*, [ch.]
+- Axler, *Linear Algebra Done Right*, [ch.]
+- Trefethen and Bau, *Numerical Linear Algebra*, [lecture]

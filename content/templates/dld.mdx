@@ -1,0 +1,173 @@
+---
+title: "TITLE"
+slug: "dld-slug"
+subject: "dld"
+module: "M#"
+tier: 2
+status: "draft"
+date: "YYYY-MM-DD"
+summary: "[One sentence]"
+prerequisites: []
+connections: []
+tags: ["dld"]
+kind: "combinational" # number-system | boolean | combinational | sequential | fsm | memory | rtl
+depthHook: "[from outline]"
+---
+
+{/*
+  DLD-SPECIFIC RULES
+  1. Keep three layers separate: FUNCTION (truth table), STRUCTURE (gates), PHYSICS (delay, power).
+  2. Every circuit gets: spec, truth/state table, equations, schematic, then timing.
+  3. For sequential circuits always state: trigger type, clock assumptions, reset behavior.
+  4. Draw waveforms. A timing diagram is worth more than a paragraph.
+  5. Include cost: gate count, delay in gate-levels, and (Tier 3) area/power remark.
+*/}
+
+import {
+  Callout, Definition, Theorem, Proof, Example,
+  Misconception, Connection, SelfTest, Takeaways, Figure,
+  TruthTable, Waveform, CostTable
+} from "@/components/article";
+
+<Takeaways>
+- **Function:** [what it computes]
+- **Structure:** [how it is built]
+- **Time:** [what limits its speed / what can go wrong]
+</Takeaways>
+
+## 1. The problem
+
+[A need stated as a black box: inputs, outputs, requirement. Why can't a plain gate or existing block do it?]
+
+## 2. Specification
+
+<Definition term="Specification">
+**Inputs:** [names, widths]
+
+**Outputs:** [names, widths]
+
+**Behavior:** [in words, then precise]
+
+**Assumptions:** [active-high/low, clock edge, reset, don't-cares]
+</Definition>
+
+### Truth table / state table
+
+<TruthTable
+  inputs={["A", "B", "Cin"]}
+  outputs={["S", "Cout"]}
+  rows={[
+    ["0","0","0","0","0"],
+    /* fill all 2^n rows */
+  ]}
+/>
+
+## 3. Derivation
+
+### 3.1 Boolean equations
+
+$$
+S = \dots \qquad C_{out} = \dots
+$$
+
+[Show derivation: canonical SOP, then simplification. Include the K-map.]
+
+<Figure src="/img/dld/kmap.svg" alt="K-map" caption="[Circle groups; mark essential prime implicants; note don't-cares]" />
+
+### 3.2 Circuit
+
+<Figure src="/img/dld/circuit.svg" alt="schematic" caption="[Signal names match the equations]" />
+
+### 3.3 (Sequential only) Design flow
+
+1. State diagram
+2. State table (with symbolic states)
+3. State reduction
+4. State assignment ([binary | Gray | one-hot], and why)
+5. Excitation table for [D | JK | T]
+6. Next-state and output equations
+7. Circuit
+
+## 4. Worked example
+
+<Example title="[Concrete input sequence]">
+[Trace input by input. For sequential designs: cycle-by-cycle table of state, input, next state, output.]
+</Example>
+
+## 5. Timing (the physics layer)
+
+<Waveform
+  signals={[
+    { name: "clk", wave: "p......." },
+    { name: "A",   wave: "0.1.0..." },
+    { name: "Y",   wave: "0..1.0.." },
+  ]}
+  caption="[Mark propagation delay, setup/hold window, glitch if any]"
+/>
+
+- **Critical path:** [gate chain] with delay $\approx n \cdot t_{pd}$
+- **Max clock (sequential):** $T_{clk} \ge t_{clk\to Q} + t_{logic} + t_{setup}$
+- **Hazards:** [static-1 / static-0 / dynamic: where, and the redundant term that fixes it]
+
+## 6. Cost and alternatives
+
+<CostTable
+  rows={[
+    { design: "This design", gates: "", levels: "", note: "" },
+    { design: "Alternative (e.g. lookahead / one-hot / mux-based)", gates: "", levels: "", note: "" },
+  ]}
+/>
+
+[What are you trading? Area vs speed vs power vs simplicity.]
+
+## 7. HDL view (optional)
+
+```verilog
+// Describes hardware; every statement exists concurrently unless in an always block.
+module thing (
+  input  wire a, b,
+  output wire y
+);
+  assign y = a & b;
+endmodule
+```
+
+## 8. Failure modes
+
+| Failure | Cause | Symptom | Remedy |
+|---|---|---|---|
+| Glitch | [unequal path delays] | [spurious pulse] | [redundant term / register outputs] |
+| Setup violation | [logic too slow] | [wrong sampled value] | [slower clock / pipeline] |
+| Metastability | [async input] | [undefined output for a while] | [2-flop synchronizer] |
+| Latch inferred (HDL) | [incomplete assignment] | [unexpected memory] | [assign default] |
+
+## 9. Connections
+
+<Connection to="[slug]" field="Linear Algebra">
+[e.g. GF(2): parity/Hamming/LFSR/CRC as linear maps or polynomial arithmetic.]
+</Connection>
+
+<Connection to="[slug]" field="DSA">
+[e.g. memory hierarchy, bitsets, FSM and regex/KMP.]
+</Connection>
+
+## 10. Misconceptions
+
+<Misconception wrong="[e.g. 'A flip-flop and a latch are the same']">
+[Level vs edge sensitivity, and what that means for races...]
+</Misconception>
+
+## 11. Self-test
+
+<SelfTest>
+1. **Derive** the minimal SOP for [function] with don't-cares.
+2. **Draw** the timing diagram for [input sequence].
+3. **Find** the critical path and the max frequency.
+4. **Find** a hazard, and remove it.
+5. **Redesign** using [alternative encoding/style]; compare cost.
+</SelfTest>
+
+## References
+
+- Mano and Ciletti, *Digital Design*, [ch.]
+- Harris and Harris, *Digital Design and Computer Architecture*, [ch.]

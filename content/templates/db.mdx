@@ -1,0 +1,186 @@
+---
+title: "TITLE"
+slug: "db-slug"
+subject: "database-design"
+module: "M#"
+tier: 2
+status: "draft"
+date: "YYYY-MM-DD"
+summary: "[One sentence]"
+prerequisites: []
+connections: []
+tags: ["database-design"]
+kind: "concept" # concept | modeling | normalization | pattern | case-study
+depthHook: "[from outline]"
+---
+
+{/*
+  DB-DESIGN RULES
+  1. Start from a REALITY (requirements in plain language), not from tables.
+  2. Every design decision is justified by an ANOMALY it prevents or a QUERY it serves.
+  3. Separate: what the schema can ENFORCE vs what the application must enforce.
+  4. FDs come from business meaning; say who/what asserts each FD.
+  5. Always end with a critique of your own design (what would make you change it?).
+  6. SQL is for DDL illustration only; no DBMS-internals detours.
+*/}
+
+import {
+  Callout, Definition, Theorem, Proof, Example,
+  Misconception, Connection, SelfTest, Takeaways, Figure,
+  ERDiagram, FDTable, Anomaly, SchemaCompare
+} from "@/components/article";
+
+<Takeaways>
+- **Modeling decision:** [what you decide and why]
+- **Anomaly / risk prevented:** [insertion | update | deletion | integrity | concurrency]
+- **Cost paid:** [joins, complexity, performance, flexibility]
+</Takeaways>
+
+## 1. The reality being modeled
+
+**Requirements (plain language):**
+
+> [Paste 5-10 sentences as a stakeholder would say them. Keep ambiguities; you'll resolve them below.]
+
+**Ambiguities and decisions**
+
+| Statement | Ambiguity | Decision | Reason |
+|---|---|---|---|
+| "[...]" | [entity or attribute?] | [...] | [...] |
+
+## 2. Why this concept exists
+
+[What goes wrong without it? Show a bad design first.]
+
+<Anomaly
+  type="update"
+  table="[bad_table]"
+  scenario="[A customer changes address; it appears in 40 rows; 39 are updated...]"
+/>
+
+## 3. Conceptual model
+
+<ERDiagram src="/img/db/er.svg" caption="[Entities, relationships, cardinality and participation]" />
+
+| Element | Kind | Notes |
+|---|---|---|
+| [Entity] | strong / weak | [identifier] |
+| [Relationship] | 1:N / M:N / ternary | [participation: total/partial] |
+| [Attribute] | simple / composite / multivalued / derived | [...] |
+
+<Callout type="warning">
+[Trap check: fan trap or chasm trap? Is a ternary really decomposable?]
+</Callout>
+
+## 4. Relational mapping
+
+```sql
+-- DDL illustrating the mapping. Constraints show intent.
+CREATE TABLE customer (
+  customer_id  INT PRIMARY KEY,
+  email        TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE "order" (
+  order_id     INT PRIMARY KEY,
+  customer_id  INT NOT NULL REFERENCES customer(customer_id) ON DELETE RESTRICT,
+  placed_at    TIMESTAMP NOT NULL
+);
+```
+
+**Mapping decisions:** [where FKs go and why; how the hierarchy is mapped and what it costs]
+
+## 5. Dependencies and normalization
+
+<FDTable
+  relation="R(A, B, C, D)"
+  fds={[
+    { lhs: "A", rhs: "B", source: "[business rule that asserts it]" },
+    { lhs: "B", rhs: "C", source: "[...]" },
+  ]}
+/>
+
+**Candidate keys** (via attribute closure):
+
+$$
+\{A\}^+ = \{A, B, C\} \ne R \quad\Rightarrow\quad \{A, D\}^+ = R
+$$
+
+| Normal form | Satisfied? | Violating FD | Anomaly it causes |
+|---|---|---|---|
+| 1NF | [...] | [...] | [...] |
+| 2NF | [...] | [...] | [...] |
+| 3NF | [...] | [...] | [...] |
+| BCNF | [...] | [...] | [...] |
+
+**Decomposition:** [steps]. **Check:** lossless join? [yes/no, test]. Dependency preserving? [yes/no, which FD is lost]
+
+## 6. Enforcement map
+
+| Business rule | Enforced by | Can schema enforce it? |
+|---|---|---|
+| [uniqueness of ...] | UNIQUE | yes |
+| [total participation] | [NOT NULL + FK / app / trigger] | [partial] |
+| [cross-row rule] | [assertion / app / transaction] | [no] |
+
+## 7. Workload and access patterns
+
+| Query / operation | Frequency | Touches | Index or design implication |
+|---|---|---|---|
+| [...] | [...] | [...] | [...] |
+
+**Denormalization decision (if any):** [what, why, how consistency is preserved]
+
+## 8. Concurrency check
+
+[Two transactions interleave; can the schema still be violated? Which isolation anomaly (write skew, phantom)? Which constraint is the last line of defense?]
+
+## 9. Alternatives compared
+
+<SchemaCompare
+  options={[
+    { name: "Design A", pros: [""], cons: [""], useWhen: "" },
+    { name: "Design B", pros: [""], cons: [""], useWhen: "" },
+  ]}
+/>
+
+## 10. Critique of this design
+
+- **Strongest aspect:** [...]
+- **Weakest aspect:** [...]
+- **Would change if:** [requirement or scale changes]
+- **Unmodeled assumption:** [...]
+
+## 11. Connections
+
+<Connection to="[slug]" field="DSA">
+[e.g. index = B+ tree / hash; joins = sort-merge / hash; closure = graph reachability.]
+</Connection>
+
+<Connection to="[slug]" field="Digital Logic">
+[e.g. SQL three-valued logic vs Boolean logic.]
+</Connection>
+
+## 12. Misconceptions
+
+<Misconception wrong="[e.g. 'Normalize to the highest form always']">
+[Normal forms are constraints against specific anomalies, not a scoreboard...]
+</Misconception>
+
+## 13. Self-test
+
+<SelfTest>
+1. **Model:** [small requirement] as an ER diagram; justify each cardinality.
+2. **Closure:** compute the candidate keys of [R, F].
+3. **Diagnose:** which normal form does [R] violate and which anomaly follows?
+4. **Decompose** to BCNF; is it dependency preserving?
+5. **Break it:** write two interleaved transactions that violate [rule].
+6. **Critique:** name two ways this schema fails at 100x scale.
+</SelfTest>
+
+## References
+
+- Elmasri and Navathe, *Fundamentals of Database Systems*, [ch.]
+- Silberschatz, Korth and Sudarshan, *Database System Concepts*, [ch.]
+- Kleppmann, *Designing Data-Intensive Applications*, [ch.]
+- Kimball and Ross, *The Data Warehouse Toolkit*, [ch.] (for dimensional topics)

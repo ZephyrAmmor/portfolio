@@ -1,0 +1,163 @@
+---
+title: "TITLE"
+slug: "dsa-slug"
+subject: "dsa"
+module: "M#"
+tier: 2
+status: "draft"
+date: "YYYY-MM-DD"
+summary: "[One sentence]"
+prerequisites: []
+connections: []
+tags: ["dsa"]
+kind: "data-structure" # data-structure | algorithm | technique | analysis
+depthHook: "[from outline]"
+---
+
+{/*
+  DSA-SPECIFIC RULES
+  1. Data structure = OPERATIONS + INVARIANT + TRADE-OFF. Name all three near the top.
+  2. Algorithm = STRATEGY + PROOF OF CORRECTNESS + COST. Never present code without the proof idea.
+  3. Give complexity for time AND space, and say which case (worst / average / amortized / expected).
+  4. Include one real-hardware remark (cache, memory, disk) for Tier 3.
+  5. Code must be runnable and minimal. Use one language throughout (Python or C++).
+*/}
+
+import {
+  Callout, Definition, Theorem, Proof, Example,
+  Misconception, Connection, SelfTest, Takeaways, Figure, Complexity, Trace
+} from "@/components/article";
+
+<Takeaways>
+- **Invariant:** [what is always true]
+- **Trade-off:** [what it is good at vs what it sacrifices]
+- **Use when / avoid when:** [...]
+</Takeaways>
+
+## 1. The problem
+
+[A workload that makes the naive solution fail. Give numbers: n = 10^6 with O(n^2) means ~10^12 operations.]
+
+## 2. Contract
+
+<Definition term="[Structure/Algorithm]">
+**Operations:** [list ADT operations]
+
+**Invariant:** [the one sentence everything else preserves]
+
+**Guarantee:** [what you get, under what assumptions]
+</Definition>
+
+<Complexity
+  rows={[
+    { op: "search", best: "", average: "", worst: "", note: "" },
+    { op: "insert", best: "", average: "", worst: "", note: "" },
+    { op: "delete", best: "", average: "", worst: "", note: "" },
+    { op: "space", best: "", average: "", worst: "", note: "" },
+  ]}
+/>
+
+## 3. Intuition
+
+[Picture of the structure evolving. Use a small trace, 5-8 elements.]
+
+<Figure src="/img/dsa/slug.svg" alt="" caption="[Where the invariant is visible]" />
+
+## 4. Implementation
+
+```python
+# Minimal implementation. Comment the lines that PRESERVE THE INVARIANT.
+class Thing:
+    def __init__(self):
+        ...
+
+    def op(self, x):
+        # invariant maintained here because ...
+        ...
+```
+
+<Trace title="Trace on a small input">
+| Step | State | Invariant check |
+|---|---|---|
+| 0 | [...] | holds |
+| 1 | [...] | holds |
+| 2 | [...] | holds |
+</Trace>
+
+## 5. Correctness
+
+<Theorem name="Correctness">
+[Statement: after each operation the invariant holds, and termination gives the required output.]
+</Theorem>
+
+<Proof>
+**Initialization.** [invariant true at start]
+
+**Maintenance.** [if true before an iteration/operation, true after]
+
+**Termination.** [invariant + exit condition implies goal]
+</Proof>
+
+## 6. Cost analysis
+
+[Derive, don't assert.]
+
+- **Recurrence / counting argument:** $T(n) = \dots$
+- **Amortized argument (if relevant):** [aggregate / accounting / potential; state the potential function]
+- **Expected-case argument (if randomized):** [what is random, what expectation is over]
+
+## 7. Failure modes
+
+| Input / scenario | Behavior | Why | Fix |
+|---|---|---|---|
+| Adversarial input | [...] | [...] | [...] |
+| Degenerate (sorted, duplicates, empty) | [...] | [...] | [...] |
+| Violated assumption (e.g. negative edge) | [...] | [...] | [...] |
+
+<Callout type="warning">
+[The most common bug when implementing this.]
+</Callout>
+
+## 8. Constants and hardware (Tier 3)
+
+[Cache behavior, pointer chasing, branch prediction, memory layout. Where does the asymptotic story mislead? Optionally include a benchmark table with method noted.]
+
+## 9. Design alternatives
+
+| Alternative | Wins when | Loses when |
+|---|---|---|
+| [A] | [...] | [...] |
+| [B] | [...] | [...] |
+
+## 10. Connections
+
+<Connection to="[slug]" field="Database Design">
+[e.g. B-tree as a disk-shaped BST, hash join, sort-merge join.]
+</Connection>
+
+<Connection to="[slug]" field="Linear Algebra">
+[e.g. adjacency matrix powers, spectral methods.]
+</Connection>
+
+## 11. Misconceptions
+
+<Misconception wrong="[e.g. 'Hash tables are O(1)']">
+[O(1) is expected, under assumptions about the hash function and load factor...]
+</Misconception>
+
+## 12. Practice ladder
+
+<SelfTest>
+1. **Trace** the structure on [input].
+2. **State the invariant** and prove maintenance for one operation.
+3. **Derive** the complexity of [operation].
+4. **Construct** an input that triggers the worst case.
+5. **Modify:** how does the solution change if [constraint changes]?
+6. **Problems:** [2 easy, 2 medium, 1 hard, with source links]
+</SelfTest>
+
+## References
+
+- CLRS, [ch.]
+- Sedgewick and Wayne, *Algorithms*, [sec.]
+- [Paper / lecture notes]
