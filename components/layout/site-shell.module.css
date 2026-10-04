@@ -2,7 +2,7 @@
   position: relative;
   width: min(100%, 1180px);
   margin: 0 auto;
-  padding: 0 36px;
+  padding: 82px 36px 0;
 }
 
 .loader {
@@ -14,6 +14,7 @@
   gap: 14px;
   background: var(--background);
   pointer-events: none;
+  animation: loaderExit 250ms ease 650ms forwards;
 }
 
 .loaderMark {
@@ -38,17 +39,29 @@
   height: 100%;
   background: var(--accent);
   content: "";
-  animation: loaderProgress 700ms ease-in-out infinite;
+  animation: loaderProgress 900ms ease-in-out infinite;
 }
 
 .header {
-  position: relative;
+  position: fixed;
+  z-index: 20;
+  top: 12px;
+  left: 50%;
+  width: min(calc(100% - 40px), 1108px);
+  transform: translateX(-50%);
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   column-gap: 32px;
-  min-height: 88px;
+  min-height: 58px;
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
   border-bottom: 1px solid var(--line);
+  padding: 0 18px;
+  background: var(--glass);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+  backdrop-filter: blur(22px) saturate(135%);
   font-size: 13px;
 }
 
@@ -58,8 +71,7 @@
   letter-spacing: -0.04em;
 }
 
-.wordmark span,
-.headerLink span {
+.wordmark span {
   color: var(--accent);
 }
 
@@ -79,7 +91,6 @@
 }
 
 .nav a,
-.headerLink,
 .footer a {
   transition:
     color 180ms ease,
@@ -87,14 +98,14 @@
 }
 
 .nav a:hover,
-.headerLink:hover,
 .footer a:hover {
   color: var(--accent);
 }
 
 .nav .active {
-  color: var(--foreground);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .headerActions {
@@ -104,8 +115,26 @@
   gap: 18px;
 }
 
-.headerLink {
-  white-space: nowrap;
+.themeButton {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--foreground);
+  background: var(--glass);
+  font: inherit;
+  font-size: 17px;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.themeButton:hover {
+  border-color: var(--accent);
+  transform: rotate(12deg);
 }
 
 .menuButton {
@@ -163,7 +192,7 @@
 
 @media (max-width: 900px) {
   .shell {
-    padding: 0 20px;
+    padding: 76px 20px 0;
   }
 
   .header {
@@ -210,10 +239,6 @@
   .headerActions {
     gap: 10px;
   }
-
-  .headerLink {
-    display: none;
-  }
 }
 
 @keyframes menuIn {
@@ -235,6 +260,13 @@
 
   to {
     transform: translateX(300%);
+  }
+}
+
+@keyframes loaderExit {
+  to {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 

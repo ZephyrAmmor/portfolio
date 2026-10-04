@@ -9,15 +9,17 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: [
-    "Abdul Samad",
-    "computer science student",
-    "software",
-    "artificial intelligence",
-    "technical writing",
-  ],
-  authors: [{ name: siteConfig.name }],
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: "technology",
+  classification: "Portfolio and technical notebook",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   alternates: { canonical: siteConfig.url },
   robots: { index: true, follow: true },
   openGraph: {
@@ -26,6 +28,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
+    locale: siteConfig.locale,
     images: [
       {
         url: "/opengraph-image",
@@ -37,6 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    creator: "@amorzephyr",
     title: `${siteConfig.name} | Computer Science Student`,
     description: siteConfig.description,
     images: ["/opengraph-image"],
@@ -65,6 +69,18 @@ const structuredData = {
       url: siteConfig.url,
       description: siteConfig.description,
       author: { "@type": "Person", name: siteConfig.name },
+      inLanguage: "en",
+    },
+    {
+      "@type": "ProfilePage",
+      name: `${siteConfig.name} | Portfolio`,
+      url: siteConfig.url,
+      mainEntity: {
+        "@type": "Person",
+        name: siteConfig.name,
+        url: siteConfig.url,
+      },
+      inLanguage: "en",
     },
   ],
 };

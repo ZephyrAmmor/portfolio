@@ -1,111 +1,184 @@
+import Image from "next/image";
 import Link from "next/link";
+import { ContactForm } from "@/components/home/contact-form";
+import { LearningTimeline } from "@/components/home/learning-timeline";
+import { ProjectShowcase } from "@/components/home/project-showcase";
 import { SiteShell } from "@/components/layout/site-shell";
-import { featuredProjects } from "@/lib/projects";
+import { getWritingPosts } from "@/lib/mdx";
+import { siteConfig } from "@/lib/metadata";
 import styles from "./page.module.css";
 
 export default function Home() {
+  const notes = getWritingPosts();
+
   return (
     <SiteShell>
-      <div className={styles.page}>
-        <main>
-          <section className={styles.hero} aria-labelledby="hero-title">
+      <main className={styles.page}>
+        <section
+          className={`${styles.hero} section-reveal`}
+          id="top"
+          aria-labelledby="hero-title"
+          data-reveal
+        >
+          <div className={styles.heroGlow} />
+          <div className={styles.heroCopy}>
             <p className={styles.eyebrow}>Computer science student · Multan</p>
             <h1 id="hero-title">
-              Learning how computers work, then building things that matter.
+              Building a thoughtful path into <em>intelligent systems.</em>
             </h1>
-            <div className={styles.heroBottom}>
-              <p className={styles.heroCopy}>
-                I&apos;m a third-semester CS student at NUML exploring software,
-                artificial intelligence, and the foundations beneath both.
-              </p>
-              <Link className={styles.textLink} href="/projects">
-                Explore the work{" "}
-                <span className={styles.arrow} aria-hidden="true">
-                  ↑
-                </span>
-              </Link>
-            </div>
-          </section>
-
-          <section
-            className={styles.work}
-            id="work"
-            aria-labelledby="work-title"
-          >
-            <div className={styles.sectionLabel}>
-              <span>01</span>
-              <h2 id="work-title">Selected work</h2>
-            </div>
-            <div className={styles.workIntro}>
-              <div>
-                <p>
-                  A small selection from the work I have built with classmates,
-                  while studying independently, and during university
-                  coursework.
-                </p>
-                <Link className={styles.textLink} href="/projects">
-                  See the project shelf{" "}
-                  <span className={styles.arrow} aria-hidden="true">
-                    ↑
-                  </span>
-                </Link>
-              </div>
-              <ul className={styles.featuredList}>
-                {featuredProjects.map((project) => (
-                  <li key={project.name}>
-                    <a href={project.url} target="_blank" rel="noreferrer">
-                      <span>{project.name}</span>
-                      <span className={styles.arrow} aria-hidden="true">
-                        ↑
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-          <section
-            className={styles.writing}
-            id="writing"
-            aria-labelledby="writing-title"
-          >
-            <div className={styles.sectionLabel}>
-              <span>02</span>
-              <h2 id="writing-title">From the notebook</h2>
-            </div>
-            <div className={styles.writingIntro}>
-              <p>
-                Notes on computer science, learning, and the questions that stay
-                interesting after the code runs.
-              </p>
-              <Link className={styles.textLink} href="/writing">
-                Browse the notebook{" "}
-                <span className={styles.arrow} aria-hidden="true">
-                  ↑
-                </span>
-              </Link>
-            </div>
-          </section>
-
-          <section
-            className={styles.about}
-            id="about"
-            aria-labelledby="about-title"
-          >
-            <div className={styles.sectionLabel}>
-              <span>03</span>
-              <h2 id="about-title">A little context</h2>
-            </div>
-            <p className={styles.aboutCopy}>
-              I&apos;m early in the journey, and that is part of the point. I
-              learn by building, looking closely at what I misunderstood, and
-              returning with better questions. This site is a record of that
-              process.
+            <p className={styles.lede}>
+              I&apos;m Abdul Samad, learning how computers work, then turning
+              that understanding into useful software.
             </p>
-          </section>
-        </main>
-      </div>
+            <div className={styles.actions}>
+              <a className={styles.primaryButton} href="#work">
+                Explore my work <span aria-hidden="true">↗</span>
+              </a>
+              <a
+                className={styles.secondaryButton}
+                href={`mailto:${siteConfig.email}`}
+              >
+                Let&apos;s talk
+              </a>
+            </div>
+          </div>
+          <div className={styles.portrait}>
+            <Image
+              src="/profile.webp"
+              alt="Abdul Samad"
+              fill
+              priority
+              sizes="(max-width: 700px) 70vw, 390px"
+            />
+            <span className={styles.portraitCaption}>Currently learning →</span>
+          </div>
+          <div className={styles.scrollHint}>
+            Scroll to explore <span>↓</span>
+          </div>
+        </section>
+
+        <section
+          className={`${styles.section} section-reveal`}
+          id="work"
+          aria-labelledby="work-title"
+          data-reveal
+        >
+          <div className={styles.sectionHeading}>
+            <span>01 / Selected work</span>
+            <h2 id="work-title">
+              Things I&apos;ve built
+              <br />
+              <em>with intent.</em>
+            </h2>
+          </div>
+          <ProjectShowcase />
+        </section>
+
+        <section
+          className={`${styles.section} section-reveal`}
+          id="learning"
+          aria-labelledby="learning-title"
+          data-reveal
+        >
+          <div className={styles.sectionHeading}>
+            <span>02 / The process</span>
+            <h2 id="learning-title">
+              Still learning.
+              <br />
+              <em>Paying attention.</em>
+            </h2>
+          </div>
+          <div className={styles.learningGrid}>
+            <p className={styles.sectionLead}>
+              I did not arrive here through a single smooth curriculum. This is
+              the story of the courses, detours, unfinished edges, and repeated
+              attempts shaping how I learn to build.
+            </p>
+            <LearningTimeline />
+          </div>
+        </section>
+
+        <section
+          className={`${styles.section} section-reveal`}
+          id="writing"
+          aria-labelledby="writing-title"
+          data-reveal
+        >
+          <div className={styles.sectionHeading}>
+            <span>03 / From the notebook</span>
+            <h2 id="writing-title">
+              Ideas worth
+              <br />
+              <em>writing down.</em>
+            </h2>
+          </div>
+          <div className={styles.notes}>
+            <p className={styles.sectionLead}>
+              I write to slow down enough to find out whether I actually
+              understand something.
+            </p>
+            {notes.map((note) => (
+              <Link
+                className={styles.note}
+                href={`/writing/${note.slug}`}
+                key={note.slug}
+              >
+                <span>{note.type}</span>
+                <h3>{note.title}</h3>
+                <b>↗</b>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className={`${styles.section} ${styles.aboutSection} section-reveal`}
+          id="about"
+          aria-labelledby="about-title"
+          data-reveal
+        >
+          <div className={styles.sectionHeading}>
+            <span>04 / A little context</span>
+            <h2 id="about-title">
+              Curious by nature.
+              <br />
+              <em>Deliberate by choice.</em>
+            </h2>
+          </div>
+          <p className={styles.aboutCopy}>
+            I am Abdul Samad, a computer science student studying at NUML
+            Multan. I learn best by building something, examining what I
+            misunderstood, and trying again with better questions.
+            <br />
+            <br />
+            My long-term direction is AI, especially where robotics, natural
+            language processing, computer vision, and intelligent systems meet.
+            For now, that means strengthening mathematics, algorithms, software
+            engineering, and the habit of finishing useful projects.
+            <br />
+            <br />I became serious about computer science about two and a half
+            years ago. The beginning was uneven: I struggled to follow CS50x,
+            then returned to it after building a stronger foundation through web
+            development. That second attempt changed how I learned.
+          </p>
+        </section>
+        <section
+          className={`${styles.section} ${styles.contactSection} section-reveal`}
+          id="contact"
+          aria-labelledby="contact-title"
+          data-reveal
+        >
+          <div className={styles.sectionHeading}>
+            <span>05 / Contact</span>
+            <h2 id="contact-title">
+              Have a question?
+              <br />
+              <em>Let&apos;s start a conversation.</em>
+            </h2>
+          </div>
+          <ContactForm />
+        </section>
+      </main>
     </SiteShell>
   );
 }

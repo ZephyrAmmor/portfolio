@@ -1,6 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
+import { compile, run } from "@mdx-js/mdx";
 import matter from "gray-matter";
+import type { MDXComponents, MDXContent } from "mdx/types";
+import { createElement } from "react";
+import * as runtime from "react/jsx-runtime";
+import rehypeKatex from "rehype-katex";
+import rehypePrettyCode from "rehype-pretty-code";
+import remarkMath from "remark-math";
 
 const writingDirectory = path.join(process.cwd(), "content", "writing");
 
@@ -49,4 +56,31 @@ export function getWritingPost(slug: string): WritingPost | undefined {
   }
 
   return toPost(slug, fs.readFileSync(filePath, "utf8"));
+}
+
+export async function getWritingPostContent(
+  slug: string,
+  components: MDXComponents,
+): Promise<MDXContent | undefined> {
+  const filePath = path.join(writingDirectory, `${slug}.mdx`);
+
+  if (!fs.existsSync(filePath)) {
+    return undefined;
+  }
+
+  const { content } = matter(fs.readFileSync(filePath, "utf8"));
+  const compiled = await compile(content, {
+    outputFormat: "function-body",
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [
+      [rehypeKatex, { output: "htmlAndMathml" }],
+      [rehypePrettyCode, { theme: "monokai" }],
+    ],
+  });
+  const { default: Content } = await run(compiled, {
+    ...runtime,
+    baseUrl: import.meta.url,
+  });
+
+  return (props) => createElement(Content, { ...props, components });
 }

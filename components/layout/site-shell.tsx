@@ -11,21 +11,127 @@ type SiteShellProps = {
 };
 
 const links = [
-  { href: "/now", label: "Now" },
-  { href: "/projects", label: "Projects" },
-  { href: "/learning", label: "Learning" },
-  { href: "/writing", label: "Writing" },
-  { href: "/about", label: "About" },
+  { href: "/#work", label: "Work" },
+  { href: "/#learning", label: "Learning" },
+  { href: "/#writing", label: "Writing" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function SiteShell({ children }: SiteShellProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [fontsReady, setFontsReady] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [activeSection, setActiveSection] = useState("top");
 
   useEffect(() => {
-    document.fonts.ready.then(() => setFontsReady(true));
+    const finishLoading = () => setFontsReady(true);
+    const fontReady = document.fonts?.ready.then(finishLoading);
+    const timeout = window.setTimeout(finishLoading, 900);
+    const storedTheme = window.localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    const isDark = storedTheme ? storedTheme === "dark" : prefersDark;
+    document.documentElement.dataset.theme = isDark ? "dark" : "light";
+    setDarkMode(isDark);
+
+    return () => {
+      void fontReady;
+      window.clearTimeout(timeout);
+    };
   }, []);
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection(pathname.split("/")[1] || "top");
+      return;
+    }
+
+    const sectionIds = [
+      "top",
+      "work",
+      "learning",
+      "writing",
+      "about",
+      "contact",
+    ];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+    let frame = 0;
+    const syncActiveSection = () => {
+      frame = 0;
+      const readingLine = window.scrollY + 150;
+      let current = sections[0]?.id ?? "top";
+
+      for (const section of sections) {
+        if (section.offsetTop <= readingLine) {
+          current = section.id;
+        } else {
+          break;
+        }
+      }
+
+      setActiveSection((previous) =>
+        previous === current ? previous : current,
+      );
+    };
+    const onScroll = () => {
+      if (!frame) {
+        frame = window.requestAnimationFrame(syncActiveSection);
+      }
+    };
+
+    syncActiveSection();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    const revealElements = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]"),
+    );
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("section-reveal-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08 },
+    );
+    revealElements.forEach((element) => {
+      revealObserver.observe(element);
+    });
+    requestAnimationFrame(() => {
+      revealElements
+        .filter((element) => {
+          const bounds = element.getBoundingClientRect();
+          return bounds.top < window.innerHeight && bounds.bottom > 0;
+        })
+        .forEach((element) => {
+          element.classList.add("section-reveal-visible");
+          revealObserver.unobserve(element);
+        });
+    });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+      revealObserver.disconnect();
+    };
+  }, [pathname]);
+
+  function toggleTheme() {
+    const nextTheme = darkMode ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    window.localStorage.setItem("theme", nextTheme);
+    setDarkMode(nextTheme === "dark");
+  }
 
   return (
     <div className={styles.shell} aria-busy={!fontsReady}>
@@ -49,27 +155,48 @@ export function SiteShell({ children }: SiteShellProps) {
           className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}
           aria-label="Primary navigation"
         >
-          {links.map((link) => {
-            const isActive =
-              pathname === link.href || pathname.startsWith(`${link.href}/`);
+          {links.map((link) => (
+            <Link
+              className={
+                activeSection === link.href.replace("/#", "")
+                  ? styles.active
+                  : undefined
+              }
+              href={link.href}
+              key={link.href}
+              aria-current={
+                activeSection === link.href.replace("/#", "")
+                  ? "location"
+                  : undefined
+              }
+              onClick={() => setMenuOpen(false)}
+              onNavigate={(event) => {
+                if (pathname !== "/") {
+                  return;
+                }
 
-            return (
-              <Link
-                className={isActive ? styles.active : undefined}
-                href={link.href}
-                key={link.href}
-                aria-current={isActive ? "page" : undefined}
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+                const id = link.href.replace("/#", "");
+                const target = document.getElementById(id);
+                if (target) {
+                  event.preventDefault();
+                  target.scrollIntoView({ behavior: "smooth", block: "start" });
+                  window.history.replaceState(null, "", `/#${id}`);
+                }
+              }}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
         <div className={styles.headerActions}>
-          <a className={styles.headerLink} href={`mailto:${siteConfig.email}`}>
-            Get in touch <span aria-hidden="true">↑</span>
-          </a>
+          <button
+            className={styles.themeButton}
+            type="button"
+            aria-label={`Switch to ${darkMode ? "light" : "dark"} theme`}
+            onClick={toggleTheme}
+          >
+            <span aria-hidden="true">{darkMode ? "☼" : "☾"}</span>
+          </button>
           <button
             className={styles.menuButton}
             type="button"

@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { mdxComponents } from "@/components/mdx/mdx-components";
-import LayoutTest from "@/content/writing/layout-test.mdx";
-import { getWritingPost, getWritingPosts } from "@/lib/mdx";
+import {
+  getWritingPost,
+  getWritingPostContent,
+  getWritingPosts,
+} from "@/lib/mdx";
 import { createMetadata, siteConfig } from "@/lib/metadata";
 import styles from "./page.module.css";
-
-const postComponents = {
-  "layout-test": LayoutTest,
-};
 
 type WritingPageProps = {
   params: Promise<{ slug: string }>;
@@ -45,6 +44,7 @@ export async function generateMetadata({
         path: `/writing/${post.slug}`,
         type: "article",
         publishedTime: post.date,
+        modifiedTime: post.updated,
       })
     : createMetadata("Writing");
 }
@@ -52,7 +52,9 @@ export async function generateMetadata({
 export default async function WritingPostPage({ params }: WritingPageProps) {
   const { slug } = await params;
   const post = getWritingPost(slug);
-  const Post = postComponents[slug as keyof typeof postComponents];
+  const Post = post
+    ? await getWritingPostContent(slug, mdxComponents)
+    : undefined;
 
   if (!post || !Post) {
     notFound();

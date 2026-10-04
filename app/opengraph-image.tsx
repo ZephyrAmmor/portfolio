@@ -9,8 +9,8 @@ export default function OpenGraphImage() {
   return new ImageResponse(
     <div
       style={{
-        background: "#f3f0e8",
-        color: "#17211b",
+        background: "#f1efe9",
+        color: "#20231f",
         display: "flex",
         flexDirection: "column",
         height: "100%",
@@ -24,10 +24,10 @@ export default function OpenGraphImage() {
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <div style={{ display: "flex", fontSize: 72, fontWeight: 700 }}>
-          Computer science student.
+          Software, learning, and intelligent systems.
         </div>
         <div style={{ color: "#526257", display: "flex", fontSize: 30 }}>
-          Software, artificial intelligence, and careful questions.
+          Portfolio and notebook by Abdul Samad.
         </div>
       </div>
       <div style={{ color: "#526257", display: "flex", fontSize: 24 }}>
