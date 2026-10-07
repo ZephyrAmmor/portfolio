@@ -48,6 +48,12 @@ export function getWritingPosts(): WritingPost[] {
     .sort((first, second) => second.date.localeCompare(first.date));
 }
 
+export function getLatestWritingPosts(limit: number): WritingPost[] {
+  return getWritingPosts()
+    .sort((first, second) => second.updated.localeCompare(first.updated))
+    .slice(0, limit);
+}
+
 export function getWritingPost(slug: string): WritingPost | undefined {
   const filePath = path.join(writingDirectory, `${slug}.mdx`);
 

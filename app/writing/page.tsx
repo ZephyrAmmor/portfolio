@@ -5,6 +5,21 @@ import { getWritingPosts } from "@/lib/mdx";
 import { createMetadata } from "@/lib/metadata";
 import styles from "@/styles/pages.module.css";
 
+function formatDate(date: string) {
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return date;
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(parsedDate);
+}
+
 export const metadata: Metadata = createMetadata(
   "Writing",
   "Notes on computer science, mathematics, programming, and learning by Abdul Samad.",
@@ -30,25 +45,22 @@ export default function WritingPage() {
         >
           <h2 id="notebook-title">The notebook</h2>
           {notes.length > 0 ? (
-            <ul className={styles.list}>
+            <div className={styles.writingGrid}>
               {notes.map((note) => (
-                <li className={styles.listItem} key={note.slug}>
-                  <div>
+                <article className={styles.writingCard} key={note.slug}>
+                  <Link href={`/writing/${note.slug}`}>
+                    <p className={styles.meta}>
+                      {note.type} · Updated {formatDate(note.updated)}
+                    </p>
                     <h3>{note.title}</h3>
                     <p>{note.description}</p>
-                    <Link
-                      className={styles.link}
-                      href={`/writing/${note.slug}`}
-                    >
-                      Read the note{" "}
-                      <span className={styles.arrow} aria-hidden="true">
-                        ↑
-                      </span>
-                    </Link>
-                  </div>
-                </li>
+                    <span className={styles.cardLink}>
+                      Read the note <span aria-hidden="true">↗</span>
+                    </span>
+                  </Link>
+                </article>
               ))}
-            </ul>
+            </div>
           ) : (
             <p className={styles.emptyState}>
               No published notes yet. I am still learning what is worth writing

@@ -82,51 +82,6 @@
 .secondaryButton:hover {
   transform: translateY(-3px);
 }
-.portrait {
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 48%;
-  overflow: hidden;
-  border: 0;
-  border-radius: 0;
-  background: var(--background);
-  box-shadow: none;
-  transform: none;
-}
-.portrait::after {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, var(--background), transparent 72%),
-    linear-gradient(
-      0deg,
-      color-mix(in srgb, var(--accent) 40%, transparent),
-      transparent 62%
-    );
-  content: "";
-  pointer-events: none;
-}
-.portrait img {
-  object-fit: cover;
-  object-position: center 28%;
-  opacity: 0.58;
-  filter: saturate(0.72) contrast(0.92);
-}
-.portraitCaption {
-  position: absolute;
-  right: 18px;
-  bottom: 16px;
-  left: 18px;
-  z-index: 1;
-  color: #fff;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-shadow: 0 1px 12px #000;
-}
 .scrollHint {
   position: absolute;
   bottom: 28px;
@@ -167,16 +122,16 @@
 .note {
   border: 1px solid var(--glass-border);
   border-radius: 18px;
-  background: var(--glass);
+  background: color-mix(in srgb, var(--glass-strong) 88%, #111111 12%);
   box-shadow: var(--shadow);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
-  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(135%);
+  backdrop-filter: blur(30px) saturate(135%);
 }
 .card {
   position: relative;
   overflow: hidden;
   min-height: 280px;
-  border-color: rgba(255, 255, 255, 0.36);
+  border-color: color-mix(in srgb, #111111 18%, var(--glass-border));
   padding: 25px;
   transition:
     transform 240ms ease,
@@ -201,6 +156,7 @@
 }
 .card:hover {
   border-color: var(--accent);
+  background: color-mix(in srgb, var(--glass-strong) 82%, #111111 18%);
   transform: translateY(-6px);
   box-shadow: 0 26px 70px rgba(31, 26, 25, 0.16);
 }
@@ -211,6 +167,7 @@
   border: 0;
   background: transparent;
   color: inherit;
+  font: inherit;
   text-align: left;
   cursor: pointer;
   padding: 0;
@@ -222,13 +179,14 @@
 }
 .card h3 {
   margin: 58px 0 12px;
+  color: var(--foreground);
   font-size: 24px;
   letter-spacing: -0.04em;
 }
 .card p,
 .sectionLead,
 .aboutCopy {
-  color: var(--muted);
+  color: color-mix(in srgb, var(--foreground) 78%, var(--background));
   line-height: 1.7;
 }
 .card p {
@@ -321,37 +279,56 @@
 }
 .dialogBackdrop {
   position: fixed;
-  z-index: 30;
+  z-index: 9999;
   inset: 0;
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(16, 20, 18, 0.32);
-  -webkit-backdrop-filter: blur(18px) saturate(130%);
-  backdrop-filter: blur(18px) saturate(130%);
-  animation: dialogBackdropIn 220ms ease both;
+  animation: dialogBackdropIn 220ms ease forwards;
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+  backdrop-filter: blur(22px) saturate(135%);
 }
 .projectDialog {
   position: relative;
   width: min(720px, 100%);
   max-height: min(760px, calc(100vh - 48px));
-  overflow-y: auto;
+  overflow: hidden;
   border: 1px solid var(--glass-border);
   border-radius: 28px;
-  padding: clamp(28px, 5vw, 58px);
   color: var(--foreground);
-  background: color-mix(in srgb, var(--glass-strong) 78%, transparent);
+  background: var(--glass-strong);
   box-shadow:
     0 34px 100px rgba(20, 25, 22, 0.3),
     inset 0 1px 0 var(--glass-highlight);
-  -webkit-backdrop-filter: blur(36px) saturate(170%);
-  backdrop-filter: blur(36px) saturate(170%);
-  animation: dialogIn 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: dialogIn 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.dialogContent {
+  max-height: inherit;
+  overflow-y: auto;
+  border-radius: inherit;
+  clip-path: inset(0 round 28px);
+  padding: clamp(28px, 5vw, 58px);
+  scrollbar-color: color-mix(in srgb, var(--accent) 72%, transparent)
+    transparent;
+  scrollbar-width: thin;
+}
+.dialogContent::-webkit-scrollbar {
+  width: 8px;
+}
+.dialogContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dialogContent::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 72%, transparent);
+  background-clip: padding-box;
 }
 .dialogClose {
   position: absolute;
   top: 18px;
   right: 20px;
+  z-index: 1;
   display: grid;
   width: 36px;
   height: 36px;
@@ -377,13 +354,14 @@
 }
 .projectDialog h2 {
   margin: 20px 0 14px;
+  color: var(--foreground);
   font-size: clamp(38px, 7vw, 72px);
   letter-spacing: -0.07em;
   line-height: 0.95;
 }
 .dialogDescription,
 .dialogStory {
-  color: var(--muted);
+  color: color-mix(in srgb, var(--foreground) 82%, var(--background));
   line-height: 1.8;
 }
 .dialogDescription {
@@ -416,6 +394,38 @@
     transform: translateY(0) scale(1);
   }
 }
+
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .card,
+  .note {
+    background: var(--glass-strong);
+  }
+
+  .card {
+    border-color: var(--glass-border);
+  }
+
+  .card:hover {
+    background: var(--glass-strong);
+  }
+
+  .card p,
+  .sectionLead,
+  .aboutCopy,
+  .dialogDescription,
+  .dialogStory {
+    color: var(--foreground);
+  }
+
+  .dialogContent {
+    scrollbar-color: var(--accent) transparent;
+  }
+
+  .dialogContent::-webkit-scrollbar-thumb {
+    background: var(--accent);
+  }
+}
+
 .learningGrid {
   display: grid;
   grid-template-columns: 0.7fr 1.3fr;
@@ -481,6 +491,7 @@
   padding: 20px;
   color: var(--foreground);
   background: transparent;
+  font: inherit;
   text-align: left;
   cursor: pointer;
 }
@@ -566,10 +577,29 @@
 .aboutSection {
   padding-bottom: 150px;
 }
+.aboutLayout {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
+  align-items: start;
+  gap: 40px;
+}
+.aboutPhoto {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--glass);
+  box-shadow: var(--shadow);
+}
+.aboutPhoto img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
 .aboutCopy {
   max-width: 700px;
-  margin-left: calc(35% + 40px);
-  font-size: clamp(19px, 2.2vw, 30px);
+  font-size: clamp(18px, 1.8vw, 26px);
   letter-spacing: -0.04em;
   line-height: 1.25;
 }
@@ -650,10 +680,6 @@
     padding-top: 80px;
     align-items: flex-start;
   }
-  .portrait {
-    inset: 0;
-    width: 100%;
-  }
   .heroCopy {
     max-width: 100%;
   }
@@ -687,8 +713,12 @@
     margin-bottom: 10px;
     grid-template-columns: 80px 1fr 20px;
   }
-  .aboutCopy {
-    margin: 0;
+  .aboutLayout {
+    display: block;
+  }
+  .aboutPhoto {
+    width: min(100%, 280px);
+    margin-bottom: 36px;
   }
   .contactForm {
     margin: 0;

@@ -4,12 +4,12 @@ import { ContactForm } from "@/components/home/contact-form";
 import { LearningTimeline } from "@/components/home/learning-timeline";
 import { ProjectShowcase } from "@/components/home/project-showcase";
 import { SiteShell } from "@/components/layout/site-shell";
-import { getWritingPosts } from "@/lib/mdx";
+import { getLatestWritingPosts } from "@/lib/mdx";
 import { siteConfig } from "@/lib/metadata";
 import styles from "./page.module.css";
 
 export default function Home() {
-  const notes = getWritingPosts();
+  const notes = getLatestWritingPosts(3);
 
   return (
     <SiteShell>
@@ -41,16 +41,6 @@ export default function Home() {
                 Let&apos;s talk
               </a>
             </div>
-          </div>
-          <div className={styles.portrait}>
-            <Image
-              src="/profile.webp"
-              alt="Abdul Samad"
-              fill
-              priority
-              sizes="(max-width: 700px) 70vw, 390px"
-            />
-            <span className={styles.portraitCaption}>Currently learning →</span>
           </div>
           <div className={styles.scrollHint}>
             Scroll to explore <span>↓</span>
@@ -145,22 +135,33 @@ export default function Home() {
               <em>Deliberate by choice.</em>
             </h2>
           </div>
-          <p className={styles.aboutCopy}>
-            I am Abdul Samad, a computer science student studying at NUML
-            Multan. I learn best by building something, examining what I
-            misunderstood, and trying again with better questions.
-            <br />
-            <br />
-            My long-term direction is AI, especially where robotics, natural
-            language processing, computer vision, and intelligent systems meet.
-            For now, that means strengthening mathematics, algorithms, software
-            engineering, and the habit of finishing useful projects.
-            <br />
-            <br />I became serious about computer science about two and a half
-            years ago. The beginning was uneven: I struggled to follow CS50x,
-            then returned to it after building a stronger foundation through web
-            development. That second attempt changed how I learned.
-          </p>
+          <div className={styles.aboutLayout}>
+            <div className={styles.aboutPhoto}>
+              <Image
+                src="/profile.webp"
+                alt="Abdul Samad"
+                width={420}
+                height={520}
+                sizes="(max-width: 800px) 100vw, 32vw"
+              />
+            </div>
+            <p className={styles.aboutCopy}>
+              I am Abdul Samad, a computer science student studying at NUML
+              Multan. I learn best by building something, examining what I
+              misunderstood, and trying again with better questions.
+              <br />
+              <br />
+              My long-term direction is AI, especially where robotics, natural
+              language processing, computer vision, and intelligent systems
+              meet. For now, that means strengthening mathematics, algorithms,
+              software engineering, and the habit of finishing useful projects.
+              <br />
+              <br />I became serious about computer science about two and a half
+              years ago. The beginning was uneven: I struggled to follow CS50x,
+              then returned to it after building a stronger foundation through
+              web development. That second attempt changed how I learned.
+            </p>
+          </div>
         </section>
         <section
           className={`${styles.section} ${styles.contactSection} section-reveal`}

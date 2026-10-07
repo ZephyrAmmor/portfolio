@@ -18,16 +18,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority,
   }));
 
-  const writingRoutes = getWritingPosts().map((post) => ({
-    url: new URL(`/writing/${post.slug}`, siteConfig.url).toString(),
-    lastModified: post.updated
-      ? new Date(post.updated)
-      : post.date
-        ? new Date(post.date)
-        : undefined,
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  const writingRoutes = getWritingPosts()
+    .filter((post) => post.slug !== "layout-test")
+    .map((post) => ({
+      url: new URL(`/writing/${post.slug}`, siteConfig.url).toString(),
+      lastModified: post.updated
+        ? new Date(post.updated)
+        : post.date
+          ? new Date(post.date)
+          : undefined,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
 
   return [...routes, ...writingRoutes];
 }

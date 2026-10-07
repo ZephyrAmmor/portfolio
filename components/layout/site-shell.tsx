@@ -13,7 +13,7 @@ type SiteShellProps = {
 const links = [
   { href: "/#work", label: "Work" },
   { href: "/#learning", label: "Learning" },
-  { href: "/#writing", label: "Writing" },
+  { href: "/writing", label: "Writing" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
 ];
@@ -158,20 +158,20 @@ export function SiteShell({ children }: SiteShellProps) {
           {links.map((link) => (
             <Link
               className={
-                activeSection === link.href.replace("/#", "")
+                activeSection === link.href.replace("/#", "").replace("/", "")
                   ? styles.active
                   : undefined
               }
               href={link.href}
               key={link.href}
               aria-current={
-                activeSection === link.href.replace("/#", "")
+                activeSection === link.href.replace("/#", "").replace("/", "")
                   ? "location"
                   : undefined
               }
               onClick={() => setMenuOpen(false)}
               onNavigate={(event) => {
-                if (pathname !== "/") {
+                if (pathname !== "/" || !link.href.startsWith("/#")) {
                   return;
                 }
 

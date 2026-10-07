@@ -4,7 +4,7 @@
   font-family: "Outfit";
   font-style: normal;
   font-weight: 100 900;
-  font-display: block;
+  font-display: swap;
   src: url("./fonts/Outfit-VariableFont_wght.ttf") format("truetype");
 }
 
@@ -12,7 +12,7 @@
   font-family: "Comic Mono";
   font-style: normal;
   font-weight: 400;
-  font-display: block;
+  font-display: swap;
   src: url("./fonts/ComicShannsMonoNerdFontMono-Regular.otf") format("opentype");
 }
 
@@ -23,7 +23,7 @@
   --line: #d5d3ca;
   --accent: #b84c35;
   --glass: rgba(255, 255, 255, 0.42);
-  --glass-strong: rgba(255, 255, 255, 0.66);
+  --glass-strong: rgba(240, 240, 240, 0.5);
   --glass-border: rgba(255, 255, 255, 0.7);
   --glass-highlight: rgba(255, 255, 255, 0.72);
   --glow: rgba(211, 122, 90, 0.2);
@@ -139,6 +139,16 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
   background-clip: padding-box;
+}
+
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  html {
+    scrollbar-color: var(--accent) transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent);
+  }
 }
 
 a {

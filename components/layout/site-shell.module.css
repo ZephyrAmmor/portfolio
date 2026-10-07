@@ -253,6 +253,17 @@
   }
 }
 
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .nav .active {
+    background: rgba(184, 76, 53, 0.14);
+    box-shadow: inset 0 0 0 1px rgba(184, 76, 53, 0.45);
+  }
+
+  .navOpen {
+    box-shadow: 0 16px 32px rgba(32, 35, 31, 0.14);
+  }
+}
+
 @keyframes loaderProgress {
   from {
     transform: translateX(-100%);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "@/app/page.module.css";
 import { featuredProjects } from "@/lib/projects";
 
@@ -8,7 +9,12 @@ export function ProjectShowcase() {
   const [selectedProject, setSelectedProject] = useState<
     (typeof featuredProjects)[number] | null
   >(null);
+  const [isMounted, setIsMounted] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = selectedProject ? "hidden" : "";
@@ -67,49 +73,58 @@ export function ProjectShowcase() {
         ))}
       </div>
 
-      {selectedProject && (
-        <div className={styles.dialogBackdrop}>
-          <div
-            ref={dialogRef}
-            className={styles.projectDialog}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="project-dialog-title"
-          >
-            <button
-              type="button"
-              className={styles.dialogClose}
-              onClick={() => setSelectedProject(null)}
-              aria-label="Close project details"
+      {isMounted &&
+        selectedProject &&
+        createPortal(
+          <div className={styles.dialogBackdrop}>
+            <div
+              ref={dialogRef}
+              className={styles.projectDialog}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-dialog-title"
             >
-              ×
-            </button>
-            <div className={styles.dialogKicker}>
-              {selectedProject.language} · {selectedProject.context}
+              <button
+                type="button"
+                className={styles.dialogClose}
+                onClick={() => setSelectedProject(null)}
+                aria-label="Close project details"
+              >
+                ×
+              </button>
+              <div className={styles.dialogContent}>
+                <div className={styles.dialogKicker}>
+                  {selectedProject.language} · {selectedProject.context}
+                </div>
+                <h2 id="project-dialog-title">{selectedProject.name}</h2>
+                <p className={styles.dialogDescription}>
+                  {selectedProject.description}
+                </p>
+                <div className={styles.dialogRule} />
+                <p className={styles.dialogStory}>{selectedProject.story}</p>
+                <div className={styles.cardLinks}>
+                  <a
+                    href={selectedProject.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Repository <span aria-hidden="true">↗</span>
+                  </a>
+                  {selectedProject.livePreview && (
+                    <a
+                      href={selectedProject.livePreview}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Live preview <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
-            <h2 id="project-dialog-title">{selectedProject.name}</h2>
-            <p className={styles.dialogDescription}>
-              {selectedProject.description}
-            </p>
-            <div className={styles.dialogRule} />
-            <p className={styles.dialogStory}>{selectedProject.story}</p>
-            <div className={styles.cardLinks}>
-              <a href={selectedProject.url} target="_blank" rel="noreferrer">
-                Repository <span aria-hidden="true">↗</span>
-              </a>
-              {selectedProject.livePreview && (
-                <a
-                  href={selectedProject.livePreview}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Live preview <span aria-hidden="true">↗</span>
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
