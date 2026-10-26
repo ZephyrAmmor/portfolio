@@ -71,7 +71,7 @@
     background 180ms ease;
 }
 .primaryButton {
-  color: #fff;
+  color: var(--accent-foreground);
   background: var(--accent);
 }
 .secondaryButton {
@@ -150,7 +150,7 @@
     135deg,
     rgba(255, 255, 255, 0.15),
     transparent 36%,
-    rgba(184, 76, 53, 0.08)
+    rgba(63, 98, 18, 0.08)
   );
   pointer-events: none;
 }

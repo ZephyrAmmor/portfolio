@@ -21,12 +21,14 @@
   --foreground: #20231f;
   --muted: #74766d;
   --line: #d5d3ca;
-  --accent: #b84c35;
+  /* Dark enough for text on the light canvas; white also remains readable on fills. */
+  --accent: #3f6212;
+  --accent-foreground: #ffffff;
   --glass: rgba(255, 255, 255, 0.42);
   --glass-strong: rgba(240, 240, 240, 0.5);
   --glass-border: rgba(255, 255, 255, 0.7);
   --glass-highlight: rgba(255, 255, 255, 0.72);
-  --glow: rgba(211, 122, 90, 0.2);
+  --glow: hsla(80, 80%, 55%, 0.16);
   --shadow: 0 24px 70px rgba(57, 44, 35, 0.1);
   --font-sans: "Outfit", "Avenir Next", Avenir, sans-serif;
   --font-mono:
@@ -41,11 +43,13 @@
   --foreground: #f1f1f1;
   --muted: #a2a2a2;
   --line: #303030;
-  --accent: #f08b6f;
+  /* Bright lime for dark-mode text and controls; pair fills with dark text. */
+  --accent: #bef264;
+  --accent-foreground: #111111;
   --glass: rgba(255, 255, 255, 0.08);
   --glass-strong: rgba(255, 255, 255, 0.14);
   --glass-border: rgba(255, 255, 255, 0.22);
-  --glow: rgba(240, 139, 111, 0.1);
+  --glow: hsla(80, 80%, 65%, 0.18);
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
   --glass-highlight: rgba(255, 255, 255, 0.12);
 }
@@ -56,11 +60,12 @@
     --foreground: #f1f1f1;
     --muted: #a2a2a2;
     --line: #303030;
-    --accent: #f08b6f;
+    --accent: #bef264;
+    --accent-foreground: #111111;
     --glass: rgba(255, 255, 255, 0.08);
     --glass-strong: rgba(255, 255, 255, 0.14);
     --glass-border: rgba(255, 255, 255, 0.22);
-    --glow: rgba(240, 139, 111, 0.1);
+    --glow: hsla(80, 80%, 65%, 0.18);
     --shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
     --glass-highlight: rgba(255, 255, 255, 0.12);
   }

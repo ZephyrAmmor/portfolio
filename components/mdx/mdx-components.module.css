@@ -186,7 +186,7 @@
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
   .link:hover,
   .link:focus-visible {
-    background: rgba(184, 76, 53, 0.12);
+    background: rgba(63, 98, 18, 0.12);
   }
 
   :not(.pre) > .code {

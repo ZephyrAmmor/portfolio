@@ -247,8 +247,8 @@
 
   .link:hover,
   .link:focus-visible {
-    border-color: rgba(184, 76, 53, 0.45);
-    background: rgba(184, 76, 53, 0.1);
+    border-color: rgba(63, 98, 18, 0.45);
+    background: rgba(63, 98, 18, 0.1);
   }
 }
 
