@@ -57,18 +57,6 @@ export const projects: Project[] = [
     livePreview: "https://resume-generator-en.vercel.app",
   },
   {
-    name: "Model Metric",
-    description:
-      "A web tool for exploring model metrics and making evaluation results easier to read and compare.",
-    story:
-      "Model Metric grew from the need to make model evaluation feel less like a wall of numbers. I used AI during development to help reason through the product structure, generate implementation starting points, and review places where the interface could be clearer, then shaped and tested the final experience myself. Building it helped me connect my interest in intelligent systems with the everyday discipline of presenting technical results well.",
-    language: "AI-assisted build",
-    context: "Independent project",
-    source: "ZephyrAmmor",
-    url: "https://github.com/ZephyrAmmor/model_metric",
-    livePreview: "https://modelmetric.vercel.app",
-  },
-  {
     name: "Base64 Toolkit",
     description:
       "A small browser toolkit for encoding and decoding Base64 without sending the work away from the page.",
