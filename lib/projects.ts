@@ -44,6 +44,42 @@ export const projects: Project[] = [
     source: "amor-projects",
     url: "https://github.com/amor-projects/weather-cli",
   },
+  {
+    name: "Resume Generator",
+    description:
+      "A focused resume-building experience that turns structured information into a polished, shareable document.",
+    story:
+      "I built Resume Generator as a self-learning project to make the gap between raw experience and a finished resume feel smaller. AI was part of the building process as a collaborator for exploring implementation ideas, checking edge cases, and tightening the user flow; I still made the product decisions and verified the behavior myself. The project gave me practice turning a practical problem into a clear interface with useful output.",
+    language: "AI-assisted build",
+    context: "Self-learning project",
+    source: "Amor-Self-learning",
+    url: "https://github.com/Amor-Self-learning/resume-generator",
+    livePreview: "https://resume-generator-en.vercel.app",
+  },
+  {
+    name: "Model Metric",
+    description:
+      "A web tool for exploring model metrics and making evaluation results easier to read and compare.",
+    story:
+      "Model Metric grew from the need to make model evaluation feel less like a wall of numbers. I used AI during development to help reason through the product structure, generate implementation starting points, and review places where the interface could be clearer, then shaped and tested the final experience myself. Building it helped me connect my interest in intelligent systems with the everyday discipline of presenting technical results well.",
+    language: "AI-assisted build",
+    context: "Independent project",
+    source: "ZephyrAmmor",
+    url: "https://github.com/ZephyrAmmor/model_metric",
+    livePreview: "https://modelmetric.vercel.app",
+  },
+  {
+    name: "Base64 Toolkit",
+    description:
+      "A small browser toolkit for encoding and decoding Base64 without sending the work away from the page.",
+    story:
+      "I built Base64 Toolkit around a simple utility that should be quick to understand and quick to use. AI helped me move faster while building it by suggesting interface details, checking edge cases around input and output, and acting as a second pair of eyes during refinement; the final behavior and decisions remained mine to test. It is a compact project, but it reflects the same preference for useful tools with a calm, direct interface.",
+    language: "AI-assisted build",
+    context: "Utility project",
+    source: "amor-projects",
+    url: "https://github.com/amor-projects/base64-toolkit",
+    livePreview: "https://best-base64-toolkit.vercel.app",
+  },
 ];
 
 export const featuredProjects = projects;

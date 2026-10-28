@@ -16,9 +16,10 @@ export default function ProjectsPage() {
         <p className={styles.eyebrow}>Projects</p>
         <h1 className={styles.title}>A few things, built deliberately.</h1>
         <p className={styles.intro}>
-          These are the three projects that mark the clearest steps in my early
+          These projects mark some of the clearest steps in my early
           development. Each one taught me something different about turning an
-          idea into a working system.
+          idea into a working system, including how to use AI thoughtfully as
+          part of the building process.
         </p>
         <hr className={styles.rule} />
         <section

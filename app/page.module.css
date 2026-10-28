@@ -160,6 +160,27 @@
   transform: translateY(-6px);
   box-shadow: 0 26px 70px rgba(31, 26, 25, 0.16);
 }
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .note {
+  background: color-mix(in srgb, var(--glass-strong) 80%, #050505 20%);
+}
+
+[data-theme="dark"] .card:hover {
+  background: color-mix(in srgb, var(--glass-strong) 76%, #050505 24%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .card,
+  :root:not([data-theme="light"]) .note {
+    background: color-mix(in srgb, var(--glass-strong) 80%, #050505 20%);
+  }
+
+  :root:not([data-theme="light"]) .card:hover {
+    background: color-mix(in srgb, var(--glass-strong) 76%, #050505 24%);
+  }
+}
+
 .cardToggle {
   position: relative;
   z-index: 1;
