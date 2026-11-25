@@ -16,67 +16,208 @@
   src: url("./fonts/ComicShannsMonoNerdFontMono-Regular.otf") format("opentype");
 }
 
+/* ==========================================================================
+   THEME TOKENS
+   Light = "cream paper" (taken from the AVL slides)
+   Dark  = "cozy night"  (same pastels, dimmed, with twinkling stars)
+   Every component only reads these variables, so nothing else needs a
+   dark-mode override.
+   ========================================================================== */
+
 :root {
-  --background: #f1efe9;
-  --foreground: #20231f;
-  --muted: #74766d;
-  --line: #d5d3ca;
-  /* Dark enough for text on the light canvas; white also remains readable on fills. */
-  --accent: #3f6212;
+  /* paper & ink */
+  --background: #fff9f0;
+  --foreground: #302f3a;
+  --muted: #6f6a7b;
+  --line: #eadfce;
+  --dash: #dccdb6;
+  --paper: #ffffff;
+  --field: #fffdf8;
+  --backdrop: rgba(255, 240, 225, 0.72);
+
+  /* accent (text + solid fills) */
+  --accent: #6f52b5;
   --accent-foreground: #ffffff;
-  --glass: rgba(255, 255, 255, 0.42);
-  --glass-strong: rgba(240, 240, 240, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.7);
-  --glass-highlight: rgba(255, 255, 255, 0.72);
-  --glow: hsla(80, 80%, 55%, 0.16);
-  --shadow: 0 24px 70px rgba(57, 44, 35, 0.1);
-  --font-sans: "Outfit", "Avenir Next", Avenir, sans-serif;
+  --accent-edge: #4b3689; /* the chunky "candy button" bottom edge */
+  --focus-ring: rgba(111, 82, 181, 0.22);
+
+  /* pastel card surfaces */
+  --peach: #ffcdbb;
+  --mint: #bfe7d5;
+  --lavender: #cdbcf3;
+  --sky: #c6e2f6;
+  --pink: #f5cadd;
+  --butter: #f8e7a3;
+  --pastel-ink: #302f3a;
+  --pastel-ink-soft: #55505f;
+
+  /* white pills that sit on pastel cards */
+  --pill-bg: #ffffff;
+  --pill-ink: #6f52b5;
+
+  /* flat offset shadow (scrapbook look) + soft ambient shadow */
+  --shadow-solid: #e8dac6;
+  --shadow-soft: rgba(120, 90, 60, 0.14);
+
+  /* washi tape (same in both themes, slightly see-through) */
+  --tape-peach: #ffcdbb;
+  --tape-mint: #bfe7d5;
+  --tape-lavender: #cdbcf3;
+  --tape-sky: #c6e2f6;
+  --tape-pink: #f5cadd;
+  --tape-butter: #f8e7a3;
+
+  /* decoration */
+  --dot-a: rgba(143, 120, 200, 0.2);
+  --dot-b: rgba(245, 160, 190, 0.38);
+  --blob-1: rgba(205, 188, 243, 0.55);
+  --blob-2: rgba(248, 231, 163, 0.6);
+  --blob-3: rgba(255, 205, 187, 0.55);
+  --star-a: #f6d860;
+  --star-b: #f5a3c7;
+  --highlight: rgba(248, 231, 163, 0.95);
+  --squiggle: #f5a3c7;
+  --blush: rgba(255, 120, 160, 0.5);
+  --eye: #302f3a;
+  --mascot-1: #cdbcf3;
+  --mascot-2: #f5cadd;
+  --mascot-glow: 0 30px 60px rgba(120, 90, 60, 0.14);
+  --hover-surface: rgba(255, 255, 255, 0.7);
+  --scroll: #c3b0ee;
+
+  /* type */
+  --font-sans:
+    "Outfit", ui-rounded, "SF Pro Rounded", "Avenir Next", Avenir, sans-serif;
   --font-mono:
     "Comic Mono", "ComicShannsMono Nerd Font", "ComicShannsMono Nerd Font Mono",
     "JetBrains Mono", monospace;
   --font-math:
     "CMU Serif", "Latin Modern Roman", "STIX Two Text", Georgia, serif;
+
+  /* motion */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --ease-sine: cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 [data-theme="dark"] {
-  --background: #111111;
-  --foreground: #f1f1f1;
-  --muted: #a2a2a2;
-  --line: #303030;
-  /* Bright lime for dark-mode text and controls; pair fills with dark text. */
-  --accent: #bef264;
-  --accent-foreground: #111111;
-  --glass: rgba(255, 255, 255, 0.08);
-  --glass-strong: rgba(255, 255, 255, 0.14);
-  --glass-border: rgba(255, 255, 255, 0.22);
-  --glow: hsla(80, 80%, 65%, 0.18);
-  --shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
-  --glass-highlight: rgba(255, 255, 255, 0.12);
+  --background: #1e1a30;
+  --foreground: #fbf7ff;
+  --muted: #c4bbd8;
+  --line: #3d3660;
+  --dash: #54497a;
+  --paper: #2a2540;
+  --field: #221e36;
+  --backdrop: rgba(18, 14, 32, 0.72);
+
+  --accent: #d4c4ff;
+  --accent-foreground: #1e1a30;
+  --accent-edge: #9a82e0;
+  --focus-ring: rgba(212, 196, 255, 0.3);
+
+  /* same pastels as light mode (just a touch softer) with DARK ink on them,
+     so cards stay cute and easy to read */
+  --peach: #f7c3b0;
+  --mint: #b3e0cc;
+  --lavender: #c9b8f2;
+  --sky: #b9d9f1;
+  --pink: #f2c0d6;
+  --butter: #f3e2a0;
+  --pastel-ink: #2f2c3b;
+  --pastel-ink-soft: #4f4a5e;
+
+  --pill-bg: #ffffff;
+  --pill-ink: #5b3fa3;
+
+  --shadow-solid: #3b3263;
+  --shadow-soft: rgba(0, 0, 0, 0.45);
+
+  --dot-a: rgba(255, 244, 200, 0.16);
+  --dot-b: rgba(212, 196, 255, 0.5);
+  --blob-1: rgba(140, 105, 240, 0.34);
+  --blob-2: rgba(255, 190, 130, 0.14);
+  --blob-3: rgba(255, 130, 170, 0.2);
+  --star-a: #ffe58a;
+  --star-b: #ff9ec8;
+  --highlight: rgba(255, 229, 138, 0.28);
+  --squiggle: #ff9ec8;
+  --blush: rgba(255, 120, 160, 0.5);
+  --eye: #2f2c3b;
+  --mascot-1: #cdbcf3;
+  --mascot-2: #f5cadd;
+  --mascot-glow: 0 0 90px rgba(205, 188, 243, 0.3);
+  --hover-surface: rgba(255, 255, 255, 0.06);
+  --scroll: #6d5ca8;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --background: #111111;
-    --foreground: #f1f1f1;
-    --muted: #a2a2a2;
-    --line: #303030;
-    --accent: #bef264;
-    --accent-foreground: #111111;
-    --glass: rgba(255, 255, 255, 0.08);
-    --glass-strong: rgba(255, 255, 255, 0.14);
-    --glass-border: rgba(255, 255, 255, 0.22);
-    --glow: hsla(80, 80%, 65%, 0.18);
-    --shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
-    --glass-highlight: rgba(255, 255, 255, 0.12);
+    --background: #1e1a30;
+    --foreground: #fbf7ff;
+    --muted: #c4bbd8;
+    --line: #3d3660;
+    --dash: #54497a;
+    --paper: #2a2540;
+    --field: #221e36;
+    --backdrop: rgba(18, 14, 32, 0.72);
+
+    --accent: #d4c4ff;
+    --accent-foreground: #1e1a30;
+    --accent-edge: #9a82e0;
+    --focus-ring: rgba(212, 196, 255, 0.3);
+
+    /* same pastels as light mode (just a touch softer) with DARK ink on them,
+       so cards stay cute and easy to read */
+    --peach: #f7c3b0;
+    --mint: #b3e0cc;
+    --lavender: #c9b8f2;
+    --sky: #b9d9f1;
+    --pink: #f2c0d6;
+    --butter: #f3e2a0;
+    --pastel-ink: #2f2c3b;
+    --pastel-ink-soft: #4f4a5e;
+
+    --pill-bg: #ffffff;
+    --pill-ink: #5b3fa3;
+
+    --shadow-solid: #3b3263;
+    --shadow-soft: rgba(0, 0, 0, 0.45);
+
+    --dot-a: rgba(255, 244, 200, 0.16);
+    --dot-b: rgba(212, 196, 255, 0.5);
+    --blob-1: rgba(140, 105, 240, 0.34);
+    --blob-2: rgba(255, 190, 130, 0.14);
+    --blob-3: rgba(255, 130, 170, 0.2);
+    --star-a: #ffe58a;
+    --star-b: #ff9ec8;
+    --highlight: rgba(255, 229, 138, 0.28);
+    --squiggle: #ff9ec8;
+    --blush: rgba(255, 120, 160, 0.5);
+    --eye: #2f2c3b;
+    --mascot-1: #cdbcf3;
+    --mascot-2: #f5cadd;
+    --mascot-glow: 0 0 90px rgba(205, 188, 243, 0.3);
+    --hover-surface: rgba(255, 255, 255, 0.06);
+    --scroll: #6d5ca8;
   }
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html {
   height: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: 120px;
-  scrollbar-color: color-mix(in srgb, var(--accent) 72%, var(--background))
-    transparent;
+  scrollbar-color: var(--scroll) transparent;
   scrollbar-width: thin;
 }
 
@@ -86,74 +227,18 @@ body {
   overflow-x: hidden;
 }
 
-.section-reveal {
-  opacity: 0;
-  transform: translate3d(0, 28px, 0);
-  transition:
-    opacity 700ms ease,
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-
-.section-reveal-visible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
 body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
   color: var(--foreground);
   background: var(--background);
-  background-image: radial-gradient(
-    circle at 15% 10%,
-    var(--glow),
-    transparent 32rem
-  );
   transition:
-    color 200ms ease,
-    background-color 200ms ease;
+    color 300ms ease,
+    background-color 300ms ease;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  border: 3px solid transparent;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--accent) 72%, var(--background));
-  background-clip: padding-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-  background-clip: padding-box;
-}
-
-@supports not (color: color-mix(in srgb, red 50%, blue)) {
-  html {
-    scrollbar-color: var(--accent) transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--accent);
-  }
 }
 
 a {
@@ -162,28 +247,146 @@ a {
 }
 
 ::selection {
-  color: var(--background);
-  background: var(--accent);
+  color: var(--pastel-ink);
+  background: var(--pink);
 }
+
+:focus-visible {
+  outline: 3px dashed var(--accent);
+  outline-offset: 4px;
+}
+
+/* pastel pill scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: var(--scroll);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+  background-clip: padding-box;
+}
+
+/* ==========================================================================
+   LIVING BACKGROUND  (three fixed layers, all behind the content)
+   html::before  → polka dots that slowly drift   (stars in dark mode)
+   body::before  → bigger dots that twinkle
+   body::after   → soft pastel blobs that float around
+   Only transform / opacity are animated, so it stays smooth.
+   ========================================================================== */
+
+html::before,
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+}
+
+html::before {
+  inset: -40px;
+  background-image: radial-gradient(
+    circle,
+    var(--dot-a) 1.6px,
+    transparent 2.2px
+  );
+  background-size: 40px 40px;
+  animation: dotsDrift 24s linear infinite;
+}
+
+body::before {
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    var(--dot-b) 2.6px,
+    transparent 3.4px
+  );
+  background-size: 137px 137px;
+  background-position: 31px 53px;
+  animation: twinkle 3.6s ease-in-out infinite alternate;
+}
+
+body::after {
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 14%, var(--blob-1) 0, transparent 24rem),
+    radial-gradient(circle at 92% 28%, var(--blob-2) 0, transparent 22rem),
+    radial-gradient(circle at 68% 96%, var(--blob-3) 0, transparent 26rem);
+  animation: blobsFloat 18s ease-in-out infinite alternate;
+}
+
+@keyframes dotsDrift {
+  to {
+    transform: translate3d(40px, 40px, 0);
+  }
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes blobsFloat {
+  from {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.5%, 2%, 0) scale(1.08);
+  }
+}
+
+/* ==========================================================================
+   SCROLL REVEAL  (add .section-reveal-visible from an IntersectionObserver)
+   Bouncy "pop up" instead of a plain fade.
+   ========================================================================== */
+
+.section-reveal {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0) scale(0.97);
+  transition:
+    opacity 600ms ease,
+    transform 900ms var(--spring);
+}
+
+.section-reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   REDUCED MOTION — turns off every animation/transition site-wide,
+   including the CSS-module files.
+   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  .nowList div,
-  .featuredList li {
-    animation: none;
-  }
-
-  a,
-  button {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
   }
 
   .section-reveal {
     opacity: 1;
     transform: none;
-    transition: none;
   }
 }
