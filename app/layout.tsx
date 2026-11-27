@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/metadata";
+import { Literata } from "next/font/google";
 import "./globals.css";
+
+const literata = Literata({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-reading",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -87,7 +95,7 @@ const structuredData = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" className={literata.variable}>
       <body>
         {children}
         <script type="application/ld+json">

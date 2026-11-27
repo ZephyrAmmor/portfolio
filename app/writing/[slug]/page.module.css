@@ -1,55 +1,1216 @@
+/* ==========================================================================
+   writing/[slug]/page.module.css  —  one blog post (MDX)
+   Same class names as before: page, header, kicker, description, metaLine,
+   content.  Everything MDX renders inside .content (p, h2, pre, code, math…)
+   is styled by the rules below.  Needs the tokens from app/globals.css.
+
+   Fonts:  body = Literata · headings = Outfit · dates/labels/code = Comic
+   Shanns Mono · math = KaTeX's own fonts (it measures glyphs with them, so
+   swapping the font would misalign symbols).
+   ========================================================================== */
+
+/* ==========================================================================
+   READING PAGES  (blog posts)
+
+   Fonts, each chosen for its job:
+     • body text ........ Literata  (Google Fonts, designed for long reading)
+     • headings ......... Outfit     (your existing font)
+     • dates/labels/code  Comic Shanns Mono (your existing font)
+     • math ............. KaTeX's own Computer Modern. It lays glyphs out
+                          with its own metrics, so swapping fonts misaligns
+                          symbols. We style the *frame* around it instead.
+
+   (structure notes removed for this route)
+   Old structure:
+     <main  class="page">
+       <article class="post">
+         <header class="postHeader">
+           <a class="backLink">← All writing</a>
+           <p class="kicker">tag</p>
+           <h1 class="title">…</h1>
+           <p class="intro">…</p>
+           <p class="postMeta"><time>…</time><span>6 min read</span></p>
+         </header>
+         <div class="article"> …markdown… </div>
+         <footer class="postFooter">…</footer>
+       </article>
+     </main>
+
+   .content = typography + the white "paper sheet" (opaque, so the dots and
+              blobs can never sit behind your text)
+   .copy    = the same typography, no sheet (about page / old markup)
+   ========================================================================== */
+
+/* ---------- page frame ------------------------------------------------------ */
+
 .page {
   padding: 110px 0 150px;
+  --reading-font:
+    var(--font-reading, "Literata"), "Literata", "Iowan Old Style",
+    "Palatino Linotype", Georgia, serif;
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* reading-progress bar (pure CSS; browsers without scroll-driven animations
+   simply don't show it) */
+@supports (animation-timeline: scroll()) {
+  .page::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 6px;
+    border-radius: 0 999px 999px 0;
+    background: linear-gradient(
+      90deg,
+      var(--peach),
+      var(--butter),
+      var(--mint),
+      var(--sky),
+      var(--lavender),
+      var(--pink)
+    );
+    box-shadow: 0 2px 10px var(--shadow-soft);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    animation: readProgress linear both;
+    animation-timeline: scroll(root block);
+  }
 }
 
 .header {
-  max-width: 760px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 48px;
+  margin-bottom: clamp(32px, 5vw, 56px);
 }
 
-.kicker,
-.header time {
-  color: var(--muted);
-  font-size: 11px;
+.header > * {
+  animation: popIn 800ms var(--spring) backwards;
+}
+.header > :nth-child(2) {
+  animation-delay: 80ms;
+}
+.header > :nth-child(3) {
+  animation-delay: 160ms;
+}
+.header > :nth-child(4) {
+  animation-delay: 240ms;
+}
+.header > :nth-child(5) {
+  animation-delay: 320ms;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+  border-radius: 999px;
+  padding: 8px 18px 8px 14px;
+  color: var(--foreground);
+  background: var(--paper);
+  box-shadow:
+    0 4px 0 var(--shadow-solid),
+    inset 0 0 0 2px var(--line);
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  transition:
+    transform 320ms var(--spring),
+    box-shadow 320ms var(--spring);
+}
+
+.backLink:hover {
+  transform: translateX(-4px) rotate(-1.5deg);
+  box-shadow:
+    0 7px 0 var(--shadow-solid),
+    inset 0 0 0 2px var(--line);
+}
+
+.header .kicker {
+  display: inline-flex;
+  margin-bottom: 0;
 }
 
 .header h1 {
-  margin: 24px 0;
-  font-size: clamp(52px, 8vw, 92px);
-  font-weight: 500;
-  letter-spacing: -0.075em;
-  line-height: 0.98;
+  max-width: 18em;
+  margin: 22px 0 22px;
+  font-size: clamp(38px, 6.4vw, 74px);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
 }
 
 .description {
-  max-width: 600px;
-  margin-bottom: 28px;
+  max-width: 36em;
   color: var(--muted);
-  font-size: 18px;
+  font-family: var(--reading-font, Georgia, serif);
+  font-size: clamp(19px, 2.2vw, 23px);
   line-height: 1.6;
 }
 
+/* date / read-time pills */
 .metaLine {
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.02em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
 }
+
+.metaLine > * {
+  border-radius: 999px;
+  padding: 7px 14px;
+  color: var(--pastel-ink);
+  background: var(--butter);
+  box-shadow: 0 3px 0 var(--shadow-solid);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+}
+.metaLine > :nth-child(5n + 2) {
+  background: var(--mint);
+}
+.metaLine > :nth-child(5n + 3) {
+  background: var(--sky);
+}
+.metaLine > :nth-child(5n + 4) {
+  background: var(--peach);
+}
+.metaLine > :nth-child(5n + 5) {
+  background: var(--pink);
+}
+
+/* ---------- the paper sheet ------------------------------------------------- */
 
 .content {
-  max-width: 680px;
-  padding-top: 48px;
+    position: relative;
+  padding: clamp(28px, 6vw, 72px) clamp(22px, 6.5vw, 84px);
+  border-radius: 36px;
+  background: var(--read-paper);
+  box-shadow:
+    10px 14px 0 var(--shadow-solid),
+    0 40px 80px var(--shadow-soft);
 }
 
+.content::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  z-index: 2;
+  width: 110px;
+  height: 30px;
+  background: var(--tape-butter);
+  opacity: 0.92;
+  transform: translateX(-50%) rotate(-2deg);
+  pointer-events: none;
+  clip-path: polygon(
+    0 0, 100% 0, 97% 12%, 100% 25%, 97% 37%, 100% 50%, 97% 62%, 100% 75%,
+    97% 87%, 100% 100%, 0 100%, 3% 87%, 0 75%, 3% 62%, 0 50%, 3% 37%, 0 25%, 3% 12%
+  );
+}
+
+/* pastel drop cap on the first paragraph */
+.content > p:first-child::first-letter,
+.content > div:first-child > p:first-child::first-letter {
+  float: left;
+  margin: 0.07em 0.14em 0 0;
+  padding: 0.04em 0.12em 0.02em;
+  border-radius: 0.22em;
+  color: var(--pastel-ink);
+  background: var(--lavender);
+  font-family: var(--font-sans);
+  font-size: 3.4em;
+  font-weight: 600;
+  line-height: 0.85;
+}
+
+/* ==========================================================================
+   .content — typography for everything inside a post
+   ========================================================================== */
+
+.content {
+  /* fonts */
+  --reading-font:
+    var(--font-reading, "Literata"), "Literata", "Iowan Old Style",
+    "Palatino Linotype", Georgia, serif;
+  --code-font: var(--font-mono);
+
+  /* light-theme tokens */
+  --read-paper: #fffdf8;
+  --read-ink: #2b2935;
+  --read-head: #25222f;
+  --read-soft: #5d5869;
+  --read-line: #eadfce;
+  --read-link: #5b3fa3;
+  --link-line: #f5a3c7;
+  --hl: rgba(248, 231, 163, 0.95);
+  --zebra: rgba(205, 188, 243, 0.16);
+
+  --code-bg: #f7f2ff;
+  --code-bar: #ebe2ff;
+  --code-fg: #2b2935;
+  --code-inline-bg: #eee6ff;
+  --code-inline-ink: #4a2f93;
+  --code-edge: #d9ccf5;
+
+  --syn-keyword: #7a3fd1;
+  --syn-string: #1b7a52;
+  --syn-number: #b9420b;
+  --syn-comment: #6a6580;
+  --syn-fn: #1b5fc4;
+  --syn-type: #b0206a;
+  --syn-builtin: #0c6f87;
+  --syn-attr: #8a5a00;
+
+  --quote-bg: #fcefb9;
+  --quote-ink: #2b2935;
+  --quote-mark: #d99e00;
+
+  --board-bg: #26362f;
+  --board-ink: #f4f0e4;
+  --board-frame: #e6cb9a;
+  --math-ink: #26232f;
+
+  /* base text */
+  color: var(--read-ink);
+  font-family: var(--reading-font);
+  font-size: clamp(18px, 0.5vw + 16px, 20px);
+  font-optical-sizing: auto;
+  line-height: 1.8;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+[data-theme="dark"] .content {
+  --read-paper: #2a2540;
+  --read-ink: #eee8f8;
+  --read-head: #fbf7ff;
+  --read-soft: #c1b8d6;
+  --read-line: #4a4266;
+  --read-link: #cfbcff;
+  --link-line: #ff9ec8;
+  --hl: rgba(255, 229, 138, 0.28);
+  --zebra: rgba(255, 255, 255, 0.045);
+
+  --code-bg: #1a1628;
+  --code-bar: #241f38;
+  --code-fg: #eee8f8;
+  --code-inline-bg: #3d3566;
+  --code-inline-ink: #eadfff;
+  --code-edge: #1a1628;
+
+  --syn-keyword: #c9a8ff;
+  --syn-string: #a6e3c1;
+  --syn-number: #ffb48a;
+  --syn-comment: #9a92b4;
+  --syn-fn: #8ec5ff;
+  --syn-type: #ffa6cf;
+  --syn-builtin: #7dd9e8;
+  --syn-attr: #ffe08a;
+
+  --quote-bg: #3b3355;
+  --quote-ink: #eee8f8;
+  --quote-mark: #ffe58a;
+
+  --board-bg: #1e2b27;
+  --board-ink: #f1ede0;
+  --board-frame: #a98a5a;
+  --math-ink: #f1ecfa;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .content {
+    --read-paper: #2a2540;
+    --read-ink: #eee8f8;
+    --read-head: #fbf7ff;
+    --read-soft: #c1b8d6;
+    --read-line: #4a4266;
+    --read-link: #cfbcff;
+    --link-line: #ff9ec8;
+    --hl: rgba(255, 229, 138, 0.28);
+    --zebra: rgba(255, 255, 255, 0.045);
+
+    --code-bg: #1a1628;
+    --code-bar: #241f38;
+    --code-fg: #eee8f8;
+    --code-inline-bg: #3d3566;
+    --code-inline-ink: #eadfff;
+    --code-edge: #1a1628;
+
+    --syn-keyword: #c9a8ff;
+    --syn-string: #a6e3c1;
+    --syn-number: #ffb48a;
+    --syn-comment: #9a92b4;
+    --syn-fn: #8ec5ff;
+    --syn-type: #ffa6cf;
+    --syn-builtin: #7dd9e8;
+    --syn-attr: #ffe08a;
+
+    --quote-bg: #3b3355;
+    --quote-ink: #eee8f8;
+    --quote-mark: #ffe58a;
+
+    --board-bg: #1e2b27;
+    --board-ink: #f1ede0;
+    --board-frame: #a98a5a;
+    --math-ink: #f1ecfa;
+  }
+}
+
+/* ---------- paragraphs & inline text ----------------------------------------- */
+
+.content p {
+  margin: 0 0 1.4em;
+  text-wrap: pretty;
+}
+
+.content strong {
+  color: var(--read-head);
+  font-weight: 700;
+}
+
+.content em {
+  font-style: italic;
+}
+
+.content mark {
+  padding: 0.05em 0.28em;
+  border-radius: 0.3em;
+  color: inherit;
+  background: var(--hl);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.content del {
+  color: var(--read-soft);
+}
+
+.content sup,
+.content sub {
+  font-size: 0.72em;
+  line-height: 0;
+}
+
+.content abbr[title] {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+}
+
+.content a {
+  color: var(--read-link);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--link-line);
+  text-decoration-thickness: 0.14em;
+  text-underline-offset: 0.2em;
+  border-radius: 0.25em;
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.content a:hover {
+  background: var(--hl);
+  box-shadow: 0 0 0 0.16em var(--hl);
+}
+
+/* ---------- headings ----------------------------------------------------------- */
+
+.content :is(h2, h3, h4) {
+  position: relative;
+  color: var(--read-head);
+  font-family: var(--font-sans);
+  scroll-margin-top: 110px;
+  text-wrap: balance;
+}
+
+.content :is(h2, h3, h4) a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.content :is(h2, h3, h4) a:hover {
+  background: none;
+  box-shadow: none;
+}
+
+.content h2 {
+  --sq: #f5a3c7;
+  width: fit-content;
+  max-width: 100%;
+  margin: 2.4em 0 0.8em;
+  padding-bottom: 0.6em;
+  font-size: 1.85em;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+}
+
+/* a small static squiggle under each h2 (a different pastel every time) */
+.content h2::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 11px;
+  background: var(--sq);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='10' viewBox='0 0 32 10'%3E%3Cpath d='M0 5 Q8 1 16 5 T32 5' fill='none' stroke='black' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x 0 50% / auto 100%;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='10' viewBox='0 0 32 10'%3E%3Cpath d='M0 5 Q8 1 16 5 T32 5' fill='none' stroke='black' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x 0 50% / auto 100%;
+}
+
+.content h2:nth-of-type(4n + 2) {
+  --sq: #7fcfaa;
+}
+.content h2:nth-of-type(4n + 3) {
+  --sq: #b7a2ee;
+}
+.content h2:nth-of-type(4n + 4) {
+  --sq: #f3cf4f;
+}
+
+.content h3 {
+  --sq: #b7a2ee;
+  margin: 2.1em 0 0.6em;
+  padding-left: 1.05em;
+  font-size: 1.4em;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.content h3::before {
+  content: "";
+  position: absolute;
+  top: 0.42em;
+  left: 0;
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: var(--sq);
+  transition: transform 400ms var(--spring);
+}
+
+.content h3:hover::before {
+  transform: translateY(-3px) scale(1.25);
+}
+
+.content h3:nth-of-type(4n + 2) {
+  --sq: #f5a3c7;
+}
+.content h3:nth-of-type(4n + 3) {
+  --sq: #7fcfaa;
+}
+.content h3:nth-of-type(4n + 4) {
+  --sq: #ffab91;
+}
+
+.content h4 {
+  margin: 2em 0 0.5em;
+  color: var(--read-soft);
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.content :is(h2, h3, h4):target {
+  border-radius: 12px;
+  animation: targetFlash 1800ms ease-out;
+}
+
+/* ---------- lists --------------------------------------------------------------- */
+
+.content :is(ul, ol) {
+  margin: 0 0 1.5em;
+  padding: 0;
+  list-style: none;
+}
+
+.content li {
+  position: relative;
+  margin: 0.5em 0;
+  padding-left: 1.9em;
+}
+
+.content li > p {
+  margin-bottom: 0.5em;
+}
+
+.content li > :is(ul, ol) {
+  margin: 0.5em 0 0.2em;
+}
+
+/* coloured dots for bullets */
+.content ul > li::before {
+  content: "";
+  position: absolute;
+  top: 0.72em;
+  left: 0.35em;
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: #b7a2ee;
+}
+.content ul > li:nth-child(5n + 1)::before {
+  background: #f5a3c7;
+}
+.content ul > li:nth-child(5n + 2)::before {
+  background: #7fcfaa;
+}
+.content ul > li:nth-child(5n + 4)::before {
+  background: #f3cf4f;
+}
+.content ul > li:nth-child(5n + 5)::before {
+  background: #ffab91;
+}
+
+/* pastel number badges for ordered lists */
+.content ol {
+  counter-reset: item;
+}
+
+.content ol > li {
+  counter-increment: item;
+}
+
+.content ol > li::before {
+  content: counter(item);
+  position: absolute;
+  top: 0.38em;
+  left: 0;
+  display: grid;
+  width: 1.7em;
+  height: 1.7em;
+  place-items: center;
+  border-radius: 50%;
+  color: #2f2c3b;
+  background: var(--lavender);
+  font-family: var(--font-sans);
+  font-size: 0.72em;
+  font-weight: 600;
+  line-height: 1;
+}
+.content ol > li:nth-child(5n + 1)::before {
+  background: var(--peach);
+}
+.content ol > li:nth-child(5n + 2)::before {
+  background: var(--mint);
+}
+.content ol > li:nth-child(5n + 4)::before {
+  background: var(--sky);
+}
+.content ol > li:nth-child(5n + 5)::before {
+  background: var(--pink);
+}
+
+/* task lists (remark-gfm) */
+.content :global(.task-list-item) {
+  padding-left: 0;
+}
+.content :global(.task-list-item)::before {
+  display: none;
+}
+.content input[type="checkbox"] {
+  width: 1.05em;
+  height: 1.05em;
+  margin-right: 0.6em;
+  accent-color: var(--read-link);
+  vertical-align: -0.1em;
+}
+
+/* ---------- quotes, callouts, details ----------------------------------------------- */
+
+.content blockquote {
+  position: relative;
+  margin: 2em 0;
+  padding: 1.2em 1.5em 1.2em 3.4em;
+  border-radius: 22px;
+  color: var(--quote-ink);
+  background: var(--quote-bg);
+  box-shadow: 5px 6px 0 var(--shadow-solid);
+  font-style: italic;
+}
+
+.content blockquote::before {
+  content: "“";
+  position: absolute;
+  top: 0.08em;
+  left: 0.28em;
+  color: var(--quote-mark);
+  font-family: var(--font-sans);
+  font-size: 3.6em;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* GitHub-style callouts:  > [!NOTE]   (remark-github-blockquote-alert) */
+.content :global(.markdown-alert) {
+  --call-bg: var(--sky);
+  margin: 2em 0;
+  padding: 1.1em 1.4em;
+  border-radius: 22px;
+  color: var(--pastel-ink);
+  background: var(--call-bg);
+  box-shadow: 5px 6px 0 var(--shadow-solid);
+  font-style: normal;
+}
+.content :global(.markdown-alert)::before {
+  display: none;
+}
+.content :global(.markdown-alert-tip) {
+  --call-bg: var(--mint);
+}
+.content :global(.markdown-alert-important) {
+  --call-bg: var(--lavender);
+}
+.content :global(.markdown-alert-warning) {
+  --call-bg: var(--butter);
+}
+.content :global(.markdown-alert-caution) {
+  --call-bg: var(--pink);
+}
+.content :global(.markdown-alert) a {
+  color: #4b3689;
+}
+.content :global(.markdown-alert) strong {
+  color: inherit;
+}
+.content :global(.markdown-alert-title) {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0 0 0.5em;
+  color: var(--pastel-ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.74em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.content :global(.markdown-alert) > :last-child {
+  margin-bottom: 0;
+}
+.content :global(.octicon) {
+  fill: currentColor;
+}
+
+.content details {
+  margin: 1.6em 0;
+  border: 2px dashed var(--read-line);
+  border-radius: 18px;
+  padding: 0.9em 1.2em;
+}
+
+.content summary {
+  cursor: pointer;
+  color: var(--read-head);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  list-style: none;
+}
+
+.content summary::-webkit-details-marker {
+  display: none;
+}
+
+.content summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.6em;
+  color: var(--read-link);
+  transition: transform 300ms var(--spring);
+}
+
+.content details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.content details[open] > summary {
+  margin-bottom: 0.8em;
+}
+
+/* ---------- code ---------------------------------------------------------------------- */
+
+.content :not(pre) > code {
+  padding: 0.16em 0.5em;
+  border-radius: 0.55em;
+  color: var(--code-inline-ink);
+  background: var(--code-inline-bg);
+  font-family: var(--code-font);
+  font-size: 0.82em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.content kbd {
+  padding: 0.12em 0.55em 0.2em;
+  border-radius: 0.5em;
+  color: var(--read-ink);
+  background: var(--code-inline-bg);
+  box-shadow:
+    0 0.18em 0 var(--code-edge),
+    inset 0 0 0 0.08em var(--code-edge);
+  font-family: var(--code-font);
+  font-size: 0.8em;
+}
+
+/* code block = a little window with three pastel dots */
+.content pre {
+  position: relative;
+  max-width: 100%;
+  margin: 0;
+  padding: 54px 0 22px;
+  overflow: visible;
+  border-radius: 22px;
+  color: var(--code-fg);
+  background-color: var(--code-bg);
+  background-image:
+    radial-gradient(circle 5px at 24px 19px, #ff9f8a 0 4.5px, transparent 5px),
+    radial-gradient(circle 5px at 44px 19px, #f6d860 0 4.5px, transparent 5px),
+    radial-gradient(circle 5px at 64px 19px, #8fd1b3 0 4.5px, transparent 5px),
+    linear-gradient(rgba(120, 100, 170, 0.16), rgba(120, 100, 170, 0.16));
+  background-repeat: no-repeat;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 38px;
+  box-shadow: 6px 8px 0 var(--shadow-solid);
+  font-family: var(--code-font);
+  font-size: 0.82em;
+  line-height: 1.75;
+  tab-size: 2;
+}
+
+/* spacing + shadow: a plain <pre> carries them itself; if your MDX <pre>
+   component wraps it (copy button etc.) the wrapper carries them instead, so
+   the offset shadow is never clipped or doubled */
+.content > pre {
+  margin: 2em 0;
+}
+
+.content > :is(div, figure, section):has(pre) {
+  position: relative;
+  margin: 2em 0;
+  border-radius: 22px;
+  box-shadow: 6px 8px 0 var(--shadow-solid);
+}
+
+.content > :is(div, figure, section):has(pre) pre {
+  margin: 0;
+  box-shadow: none;
+}
+
+.content pre:focus-visible {
+  outline-offset: 6px;
+}
+
+.content pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 0 24px;
+  color: inherit;
+  scrollbar-color: var(--scroll) transparent;
+  scrollbar-width: thin;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  white-space: pre;
+}
+
+/* syntax colours: highlight.js, Prism and Shiki all work */
+.content pre :global(.hljs-comment),
+.content pre :global(.hljs-quote),
+.content pre :global(.hljs-meta),
+.content pre :global(.token.comment),
+.content pre :global(.token.prolog),
+.content pre :global(.token.doctype) {
+  color: var(--syn-comment);
+  font-style: italic;
+}
+
+.content pre :global(.hljs-keyword),
+.content pre :global(.hljs-selector-tag),
+.content pre :global(.hljs-tag),
+.content pre :global(.hljs-name),
+.content pre :global(.hljs-doctag),
+.content pre :global(.token.keyword),
+.content pre :global(.token.atrule),
+.content pre :global(.token.attr-value) {
+  color: var(--syn-keyword);
+}
+
+.content pre :global(.hljs-string),
+.content pre :global(.hljs-regexp),
+.content pre :global(.hljs-addition),
+.content pre :global(.hljs-selector-attr),
+.content pre :global(.token.string),
+.content pre :global(.token.char),
+.content pre :global(.token.inserted) {
+  color: var(--syn-string);
+}
+
+.content pre :global(.hljs-number),
+.content pre :global(.hljs-literal),
+.content pre :global(.token.number),
+.content pre :global(.token.boolean) {
+  color: var(--syn-number);
+}
+
+.content pre :global(.hljs-title),
+.content pre :global(.hljs-section),
+.content pre :global(.token.function) {
+  color: var(--syn-fn);
+}
+
+.content pre :global(.hljs-type),
+.content pre :global(.hljs-title.class_),
+.content pre :global(.hljs-selector-class),
+.content pre :global(.hljs-selector-id),
+.content pre :global(.token.class-name),
+.content pre :global(.token.constant),
+.content pre :global(.token.symbol) {
+  color: var(--syn-type);
+}
+
+.content pre :global(.hljs-built_in),
+.content pre :global(.hljs-symbol),
+.content pre :global(.token.builtin) {
+  color: var(--syn-builtin);
+}
+
+.content pre :global(.hljs-attr),
+.content pre :global(.hljs-attribute),
+.content pre :global(.hljs-variable),
+.content pre :global(.hljs-template-variable),
+.content pre :global(.hljs-property),
+.content pre :global(.token.property),
+.content pre :global(.token.attr-name),
+.content pre :global(.token.variable),
+.content pre :global(.token.regex) {
+  color: var(--syn-attr);
+}
+
+.content pre :global(.hljs-deletion) {
+  color: var(--syn-type);
+}
+
+.content pre :global(.hljs-emphasis),
+.content pre :global(.token.italic) {
+  font-style: italic;
+}
+
+/* Shiki with CSS variables (dual theme): light by default, dark when the
+   site is dark. Single-theme Shiki output keeps its own inline colours. */
+.content pre[style*="--shiki-light-bg"] {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+.content pre span[style*="--shiki-light"] {
+  color: var(--shiki-light) !important;
+}
+[data-theme="dark"] .content pre[style*="--shiki-dark-bg"] {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+[data-theme="dark"] .content pre span[style*="--shiki-dark"] {
+  color: var(--shiki-dark) !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .content pre[style*="--shiki-dark-bg"] {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
+  :root:not([data-theme="light"]) .content pre span[style*="--shiki-dark"] {
+    color: var(--shiki-dark) !important;
+  }
+}
+
+/* ---------- math (KaTeX) ---------------------------------------------------------------- */
+
+.content :global(.katex) {
+  color: var(--math-ink);
+  font-size: 1.07em;
+}
+
+/* display equations sit on graph paper */
+.content :global(.katex-display) {
+  margin: 1.8em 0;
+  padding: 26px 30px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 7px solid var(--board-frame);
+  border-bottom-width: 12px; /* the chalk tray */
+  border-radius: 24px;
+  color: var(--board-ink);
+  background-color: var(--board-bg);
+  background-image:
+    radial-gradient(ellipse 60% 70% at 18% 25%, rgba(255, 255, 255, 0.08), transparent 70%),
+    radial-gradient(ellipse 50% 60% at 85% 85%, rgba(255, 255, 255, 0.06), transparent 70%);
+  box-shadow:
+    inset 0 0 38px rgba(0, 0, 0, 0.35),
+    5px 6px 0 var(--shadow-solid);
+  scrollbar-color: var(--board-frame) transparent;
+  scrollbar-width: thin;
+}
+
+/* chalk-white maths with a faint dusty glow */
+.content :global(.katex-display) :global(.katex) {
+  color: var(--board-ink);
+  font-size: 1.28em;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.18);
+}
+
+.content :global(.katex-error) {
+  color: #d6336c;
+}
+
+/* ---------- rules, images, tables, footnotes ------------------------------------------------ */
+
+.content hr {
+  height: 1.6em;
+  margin: 2.8em 0;
+  overflow: visible;
+  border: 0;
+}
+
+.content hr::before {
+  content: "✦ ✦ ✦";
+  display: block;
+  background: linear-gradient(90deg, #f5a3c7, #b7a2ee, #7fcfaa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.1em;
+  letter-spacing: 0.6em;
+  line-height: 1.6;
+  text-align: center;
+  text-indent: 0.6em;
+}
+
+.content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 2em auto;
+  border-radius: 18px;
+  box-shadow: 6px 8px 0 var(--shadow-solid);
+}
+
+.content figure {
+  margin: 2em 0;
+}
+
+.content figure img {
+  margin: 0 auto;
+}
+
+.content figcaption {
+  margin-top: 16px;
+  color: var(--read-soft);
+  font-family: var(--font-mono);
+  font-size: 0.74em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.content table {
+  width: 100%;
+  margin: 2em 0;
+  border: 2px solid var(--read-line);
+  border-radius: 18px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: var(--font-sans);
+  font-size: 0.82em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+}
+
+.content th:first-child {
+  border-top-left-radius: 14px;
+}
+.content th:last-child {
+  border-top-right-radius: 14px;
+}
+.content tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 14px;
+}
+.content tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 14px;
+}
+
+.content th {
+  padding: 0.8em 1.1em;
+  color: var(--pastel-ink);
+  background: var(--lavender);
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.content td {
+  padding: 0.75em 1.1em;
+  border-top: 1px solid var(--read-line);
+}
+
+.content tbody tr:nth-child(even) td {
+  background: var(--zebra);
+}
+
+.content tbody tr:hover td {
+  background: var(--hl);
+}
+
+.content :global(.sr-only) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.content :global(.footnotes),
+.content section[data-footnotes] {
+  margin-top: 3em;
+  border-top: 3px dotted var(--read-line);
+  padding-top: 1.2em;
+  color: var(--read-soft);
+  font-size: 0.86em;
+}
+
+/* ---------- header pieces (kicker, date, description, meta) -------------------------- */
+
+.kicker,
+.header time {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 7px 14px;
+  color: var(--pastel-ink);
+  background: var(--mint);
+  box-shadow: 0 3px 0 var(--shadow-solid);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.header time {
+  background: var(--butter);
+}
+
+.kicker + time,
+time + .kicker {
+  margin-left: 10px;
+}
+
+.header {
+  max-width: none;
+  margin-bottom: clamp(32px, 5vw, 56px);
+}
+
+/* "Created at [date]" / "Updated at [date]": label and pill share one centred
+   row, and the two lines sit side by side */
+.metaLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 26px 22px 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+}
+
+.metaLine time {
+  line-height: 1.2;
+}
+
+.metaLine + .metaLine time {
+  background: var(--sky);
+}
+
+.description {
+  margin-bottom: 0;
+}
+
+/* reading pages on small screens */
 @media (max-width: 700px) {
-  .page {
-    padding: 80px 0 100px;
+  .content {
+    border-radius: 26px;
   }
 
-  .header h1 {
-    font-size: clamp(48px, 15vw, 76px);
+  .content > p:first-child::first-letter,
+  .content > div:first-child > p:first-child::first-letter {
+    font-size: 2.6em;
+    margin-right: 0.1em;
+  }
+
+  .content h2 {
+    font-size: 1.6em;
+  }
+
+  .content pre {
+    border-radius: 18px;
+    font-size: 0.78em;
+  }
+
+  .content pre code {
+    padding: 0 18px;
+  }
+
+  .content blockquote {
+    padding: 1.1em 1.2em 1.1em 2.8em;
+  }
+
+  .content :global(.katex-display) {
+    padding: 16px 14px;
+  }
+
+
+
+  .content table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.92);
+  }
+}
+
+@keyframes readProgress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes targetFlash {
+  0% {
+    background: var(--hl);
+  }
+  100% {
+    background: transparent;
   }
 }
